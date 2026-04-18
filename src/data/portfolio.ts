@@ -21,8 +21,8 @@ export type PortfolioContent = {
 
 export const portfolioContent: PortfolioContent = {
 	name: 'Aymen Abdulkerim',
-	role: 'Software Developer',
-	bio: 'I build full-stack products that feel human to use, from clean frontend experiences to reliable backend systems. I enjoy shipping practical software with React, Next.js, Laravel, and modern web tooling.',
+	role: 'Full-stack Developer · React & Laravel',
+	bio: 'I build full-stack products that feel human to use, from clean frontend experiences to reliable backend systems. I enjoy shipping practical software with modern web tooling, and I like working on problems where product clarity, performance, and maintainability all matter at once.',
 	skills: [
 		'React',
 		'Next.js',

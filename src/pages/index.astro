@@ -13,8 +13,8 @@ const blogPostCountByProject = blogPosts.reduce(
 	{} as Record<string, number>
 );
 
-const frontendSkills = skills.filter((skill) => ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Astro', 'Redux Toolkit'].includes(skill));
-const backendSkills = skills.filter((skill) => ['Laravel', 'Node.js', 'Supabase', 'MySQL'].includes(skill));
+const primarySkills = skills.filter((skill) => ['Next.js', 'TypeScript', 'Tailwind CSS', 'Astro', 'Redux Toolkit', 'Node.js', 'Supabase', 'MySQL'].includes(skill));
+const familiarSkills = skills.filter((skill) => ['React', 'Laravel'].includes(skill));
 
 const sections = [
 	{ id: 'hero', label: 'Home' },
@@ -182,6 +182,10 @@ const sections = [
 					I focus on building useful software end-to-end: product UI, API design, and practical deployment workflows.
 					My approach is straightforward — readable code, strong UX, and features that solve real user problems.
 				</p>
+				<p class="leading-7 text-muted-foreground">
+					I especially enjoy projects where the shape of the product matters as much as the code underneath it,
+					so I like turning messy requirements into interfaces and APIs that feel clear from the first use.
+				</p>
 			</section>
 
 			<section id="projects" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-6 relative overflow-hidden">
@@ -247,14 +251,14 @@ const sections = [
 				<div class="flex flex-wrap items-start justify-between gap-4 border-b border-border/60 pb-5">
 					<div>
 						<p class="text-xs uppercase tracking-[0.26em] text-muted-foreground">04 · Stack</p>
-						<p class="mt-2 text-sm text-foreground/60">Frontend and backend tools I use most often.</p>
+						<p class="mt-2 text-sm text-foreground/60">Primary stack and familiar tools I use when building full-stack products.</p>
 					</div>
 				</div>
 				<div class="space-y-5">
 					<div class="grid gap-3 sm:grid-cols-[7rem_1fr] sm:items-start">
-						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Frontend</p>
+						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Primary stack</p>
 						<ul class="flex flex-wrap gap-2.5">
-							{frontendSkills.map((skill, index) => (
+							{primarySkills.map((skill, index) => (
 								<li
 									class="skill-badge group rounded-md border border-primary/25 bg-primary/6 px-3 py-2 text-sm font-medium text-primary/85 transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:scale-[1.02] cursor-default"
 									style={`animation-delay: ${index * 50}ms`}
@@ -265,12 +269,12 @@ const sections = [
 						</ul>
 					</div>
 					<div class="grid gap-3 sm:grid-cols-[7rem_1fr] sm:items-start">
-						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Backend</p>
+						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Familiar with</p>
 						<ul class="flex flex-wrap gap-2.5">
-							{backendSkills.map((skill, index) => (
+							{familiarSkills.map((skill, index) => (
 								<li
 									class="skill-badge group rounded-md border border-primary/25 bg-primary/6 px-3 py-2 text-sm font-medium text-primary/85 transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:scale-[1.02] cursor-default"
-									style={`animation-delay: ${(index + frontendSkills.length) * 50}ms`}
+									style={`animation-delay: ${(index + primarySkills.length) * 50}ms`}
 								>
 									{skill}
 								</li>
