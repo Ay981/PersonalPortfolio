@@ -13,8 +13,9 @@ const blogPostCountByProject = blogPosts.reduce(
 	{} as Record<string, number>
 );
 
-const primarySkills = skills.filter((skill) => ['Next.js', 'TypeScript', 'Tailwind CSS', 'Astro', 'Redux Toolkit', 'Node.js', 'Supabase', 'MySQL'].includes(skill));
-const familiarSkills = skills.filter((skill) => ['React', 'Laravel'].includes(skill));
+const frontendPrimarySkills = ['React', 'TypeScript', 'TanStack Query'];
+const backendPrimarySkills = ['Laravel', 'PostgreSQL'];
+const familiarSkills = skills.filter((skill) => ![...frontendPrimarySkills, ...backendPrimarySkills].includes(skill));
 
 const sections = [
 	{ id: 'hero', label: 'Home' },
@@ -124,7 +125,7 @@ const sections = [
 				</nav>
 			</aside>
 
-			<div class="mx-auto flex w-full max-w-400 flex-col gap-7 px-4 pl-17 sm:px-6 sm:pl-6">
+			<div class="mx-auto flex w-full max-w-400 flex-col gap-7 px-3 pl-14 sm:px-6 sm:pl-6">
 
 			<section id="hero" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-6 relative overflow-hidden">
 				<div aria-hidden="true" class="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
@@ -188,42 +189,41 @@ const sections = [
 				</p>
 			</section>
 
-			<section id="projects" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-6 relative overflow-hidden">
+			<section id="projects" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-4 relative overflow-hidden sm:p-6">
 				<div aria-hidden="true" class="absolute -top-32 left-1/2 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2"></div>
 				<h2 class="text-lg font-semibold uppercase tracking-[0.15em] text-primary relative z-10">02 · Projects</h2>
 				<div class="grid gap-4 md:grid-cols-2 relative z-10">
 					{
 						projects.map((project, idx) => (
-							<article class="project-card group rounded-lg border-2 border-border bg-background p-4 relative overflow-hidden transition duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10" style={{ animationDelay: `${idx * 100}ms` }}>
+							<article class="project-card group rounded-lg border-2 border-border bg-background p-3 relative overflow-hidden transition duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:p-4" style={{ animationDelay: `${idx * 100}ms` }}>
 								<div aria-hidden="true" class="absolute -right-20 -top-20 w-40 h-40 bg-primary/5 rounded-full group-hover:bg-primary/10 transition duration-300"></div>
-								<div class="mb-4 overflow-hidden rounded-lg border border-border bg-muted relative">
+								<div class="mb-3 overflow-hidden rounded-lg border border-border bg-muted relative sm:mb-4">
 									<img
 										src={project.screenshotUrl}
 										alt={`${project.title} project screenshot`}
 										loading="lazy"
 										decoding="async"
-										class="h-64 w-full object-cover object-center sm:h-72 md:h-80 lg:h-96 transition duration-300 group-hover:scale-105"
+										class="h-56 w-full object-cover object-center sm:h-72 md:h-80 lg:h-96 transition duration-300 group-hover:scale-105"
 									/>
 									<div aria-hidden="true" class="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
 								</div>
-								<div class="mb-2 flex items-center justify-between gap-3 relative z-10">
-									<h3 class="font-semibold text-lg">{project.title}</h3>
-									<a href={project.url} target="_blank" rel="noreferrer" class="group/link inline-flex items-center gap-1 rounded px-2 py-1 text-sm font-medium text-primary hover:bg-primary/10 transition">
-										<span>View</span>
-										<svg class="h-3 w-3 transition group-hover/link:translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-											<path d="M5 12h14M12 5l7 7-7 7"/>
-										</svg>
-									</a>
+								<div class="space-y-2 relative z-10">
+									<h3 class="text-xl font-semibold leading-tight sm:text-lg">{project.title}</h3>
+									<p class="text-sm leading-6 text-foreground">{project.description}</p>
 								</div>
-								<p class="text-sm leading-6 text-foreground relative z-10">{project.description}</p>
 								<ul class="mt-3 flex flex-wrap gap-2 relative z-10">
 									{project.tech.map((item) => <li class="rounded-md border border-primary/30 bg-primary/5 px-2.5 py-1 text-xs font-medium text-primary">{item}</li>)}
 								</ul>
-								<div class="mt-4 flex items-center justify-between gap-3 border-t border-border pt-3 text-xs text-muted-foreground relative z-10">
+								<div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-border pt-3 text-xs text-muted-foreground relative z-10">
 									<span>{blogPostCountByProject[project.key] ?? 0} parts</span>
-									<a href={`/blog/project/${project.key}`} class="font-medium text-primary hover:underline">
-										Read devlog
-									</a>
+									<div class="flex flex-wrap items-center gap-3">
+										<a href={project.url} target="_blank" rel="noreferrer" class="font-medium text-primary hover:underline">
+											GitHub
+										</a>
+										<a href={`/blog/project/${project.key}`} class="font-medium text-primary hover:underline">
+											Read devlog
+										</a>
+									</div>
 								</div>
 							</article>
 						))
@@ -254,28 +254,34 @@ const sections = [
 						<p class="mt-2 text-sm text-foreground/60">Primary stack and familiar tools I use when building full-stack products.</p>
 					</div>
 				</div>
-				<div class="space-y-5">
-					<div class="grid gap-3 sm:grid-cols-[7rem_1fr] sm:items-start">
-						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Primary stack</p>
+				<div class="space-y-6">
+					<div class="grid gap-4 lg:grid-cols-[7rem_1fr] lg:items-start">
+						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Frontend</p>
 						<ul class="flex flex-wrap gap-2.5">
-							{primarySkills.map((skill, index) => (
-								<li
-									class="skill-badge group rounded-md border border-primary/25 bg-primary/6 px-3 py-2 text-sm font-medium text-primary/85 transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:scale-[1.02] cursor-default"
-									style={`animation-delay: ${index * 50}ms`}
-								>
+							{frontendPrimarySkills.map((skill, index) => (
+								<li class="skill-badge rounded-md border border-sky-500/30 bg-sky-500/12 px-3 py-2 text-sm font-medium text-sky-800 transition-all duration-300 hover:border-sky-500/55 hover:bg-sky-500/18 hover:scale-[1.02] dark:text-sky-200" style={`animation-delay: ${index * 50}ms`}>
 									{skill}
 								</li>
 							))}
 						</ul>
 					</div>
-					<div class="grid gap-3 sm:grid-cols-[7rem_1fr] sm:items-start">
-						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Familiar with</p>
+
+					<div class="grid gap-4 lg:grid-cols-[7rem_1fr] lg:items-start">
+						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Backend</p>
+						<ul class="flex flex-wrap gap-2.5">
+							{backendPrimarySkills.map((skill, index) => (
+								<li class="skill-badge rounded-md border border-emerald-500/30 bg-emerald-500/12 px-3 py-2 text-sm font-medium text-emerald-800 transition-all duration-300 hover:border-emerald-500/55 hover:bg-emerald-500/18 hover:scale-[1.02] dark:text-emerald-200" style={`animation-delay: ${(index + frontendPrimarySkills.length) * 50}ms`}>
+									{skill}
+								</li>
+							))}
+						</ul>
+					</div>
+
+					<div class="grid gap-4 lg:grid-cols-[7rem_1fr] lg:items-start">
+						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Familiar</p>
 						<ul class="flex flex-wrap gap-2.5">
 							{familiarSkills.map((skill, index) => (
-								<li
-									class="skill-badge group rounded-md border border-primary/25 bg-primary/6 px-3 py-2 text-sm font-medium text-primary/85 transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:scale-[1.02] cursor-default"
-									style={`animation-delay: ${(index + primarySkills.length) * 50}ms`}
-								>
+								<li class="skill-badge rounded-md border border-border bg-muted/40 px-3 py-2 text-sm font-medium text-muted-foreground transition-all duration-300 hover:border-border/80 hover:bg-muted/60 hover:scale-[1.02]" style={`animation-delay: ${(index + frontendPrimarySkills.length + backendPrimarySkills.length) * 50}ms`}>
 									{skill}
 								</li>
 							))}

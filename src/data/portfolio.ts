@@ -25,9 +25,11 @@ export const portfolioContent: PortfolioContent = {
 	bio: 'I build full-stack products that feel human to use, from clean frontend experiences to reliable backend systems. I enjoy shipping practical software with modern web tooling, and I like working on problems where product clarity, performance, and maintainability all matter at once.',
 	skills: [
 		'React',
-		'Next.js',
 		'Laravel',
 		'TypeScript',
+		'PostgreSQL',
+		'TanStack Query',
+		'Next.js',
 		'Astro',
 		'Tailwind CSS',
 		'Supabase',
