@@ -40,9 +40,7 @@ const sections = [
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');
-					const shouldUseDark = storedTheme
-						? storedTheme === 'dark'
-						: window.matchMedia('(prefers-color-scheme: dark)').matches;
+					const shouldUseDark = storedTheme ? storedTheme === 'dark' : true;
 
 				document.documentElement.classList.toggle('dark', shouldUseDark);
 			})();
