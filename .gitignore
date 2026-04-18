@@ -24,3 +24,4 @@ pnpm-debug.log*
 .idea/
 .agents/
 skills-lock.json
+blog-template.md
