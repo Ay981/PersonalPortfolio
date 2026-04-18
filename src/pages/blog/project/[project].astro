@@ -2,6 +2,7 @@
 import '../../../../global.css';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { portfolioContent } from '../../../data/portfolio';
+import Analytics from '@vercel/analytics/astro';
 
 export async function getStaticPaths() {
 	return portfolioContent.projects.map((projectItem) => ({
@@ -39,6 +40,7 @@ if (!project) {
 		<meta name="description" content={`All devlog entries for ${project.title}.`} />
 		<link rel="canonical" href={`https://aymenabdulkerim.dev/blog/project/${project.key}/`} />
 		<meta property="og:url" content={`https://aymenabdulkerim.dev/blog/project/${project.key}/`} />
+		<Analytics />
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');

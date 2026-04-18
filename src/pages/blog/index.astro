@@ -2,6 +2,7 @@
 import '../../../global.css';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { portfolioContent } from '../../data/portfolio';
+import Analytics from '@vercel/analytics/astro';
 
 let allPosts: CollectionEntry<'blog'>[] = [];
 try {
@@ -30,6 +31,7 @@ const postsByProject = portfolioContent.projects.map((project) => ({
 		<meta name="description" content="Project devlogs, lessons learned, and technical notes by Aymen Abdulkerim." />
 		<link rel="canonical" href="https://aymenabdulkerim.dev/blog" />
 		<meta property="og:url" content="https://aymenabdulkerim.dev/blog" />
+		<Analytics />
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');
