@@ -22,6 +22,8 @@ const { Content } = await render(post);
 		<meta name="viewport" content="width=device-width" />
 		<title>{post.data.title} · Blog</title>
 		<meta name="description" content={post.data.description} />
+		<link rel="canonical" href={`https://aymenabdulkerim.dev/blog/post/${post.slug}/`} />
+		<meta property="og:url" content={`https://aymenabdulkerim.dev/blog/post/${post.slug}/`} />
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');
