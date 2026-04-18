@@ -1,6 +1,7 @@
 ---
 import '../../../../global.css';
 import { getCollection, render } from 'astro:content';
+import Analytics from '@vercel/analytics/astro';
 
 export async function getStaticPaths() {
 	const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -31,6 +32,7 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 		<meta name="description" content={post.data.description} />
 		<link rel="canonical" href={`https://aymenabdulkerim.dev/blog/post/${post.id}/`} />
 		<meta property="og:url" content={`https://aymenabdulkerim.dev/blog/post/${post.id}/`} />
+		<Analytics />
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');

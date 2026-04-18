@@ -2,6 +2,7 @@
 import '../../global.css';
 import { getCollection } from 'astro:content';
 import { portfolioContent } from '../data/portfolio';
+import Analytics from '@vercel/analytics/astro';
 
 const { name, role, bio, skills, projects, email, github, linkedin, upwork } = portfolioContent;
 const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
@@ -38,6 +39,7 @@ const sections = [
 		<meta name="description" content={`${name} portfolio - ${role}`} />
 		<link rel="canonical" href="https://aymenabdulkerim.dev/" />
 		<meta property="og:url" content="https://aymenabdulkerim.dev/" />
+		<Analytics />
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');
