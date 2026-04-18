@@ -35,10 +35,37 @@ const sections = [
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{name} · Portfolio</title>
-		<meta name="description" content={`${name} portfolio - ${role}`} />
+		<title>{name} · Full-Stack Developer Portfolio</title>
+		<meta name="description" content={`${name} - ${role}. Explore my blog posts, projects, and technical insights. React, Laravel, TypeScript specialist.`} />
+		<meta name="keywords" content="full-stack developer, react, laravel, typescript, portfolio, blog" />
+		<meta name="author" content={name} />
 		<link rel="canonical" href="https://aymenabdulkerim.dev/" />
+		
+		<!-- Open Graph Meta Tags -->
+		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://aymenabdulkerim.dev/" />
+		<meta property="og:title" content={`${name} · Full-Stack Developer`} />
+		<meta property="og:description" content={`${name} - ${role}. Full-stack developer specializing in React, Laravel, and TypeScript with a focus on scalable applications.`} />
+		<meta property="og:site_name" content="Aymen Abdulkerim" />
+		
+		<!-- Twitter Card Meta Tags -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content="https://aymenabdulkerim.dev/" />
+		<meta name="twitter:title" content={`${name} · Full-Stack Developer Portfolio`} />
+		<meta name="twitter:description" content={`${name} - ${role}. Explore projects, blog posts, and technical content.`} />
+		
+		<!-- Structured Data (JSON-LD) -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'Person',
+			'name': name,
+			'url': 'https://aymenabdulkerim.dev/',
+			'description': `${role}. Full-stack developer specializing in React, Laravel, and TypeScript.`,
+			'jobTitle': role,
+			'email': email,
+			'sameAs': [github, linkedin, upwork],
+		})} />
+		
 		<Analytics />
 		<script is:inline>
 			(() => {
