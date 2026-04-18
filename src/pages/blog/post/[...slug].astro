@@ -32,7 +32,7 @@ const { Content } = await render(post);
 			})();
 		</script>
 	</head>
-	<body class="min-h-screen w-full bg-background text-foreground antialiased">
+	<body class="blog-copy min-h-screen w-full bg-background text-foreground antialiased">
 		<button id="theme-toggle" type="button" class="theme-toggle-fab" aria-label="Toggle theme">
 			<svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 				<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"></path>
@@ -43,25 +43,25 @@ const { Content } = await render(post);
 			</svg>
 		</button>
 		<main class="mx-auto flex w-full max-w-300 flex-col gap-6 px-5 py-8 sm:px-8 sm:py-12">
-			<nav class="flex flex-wrap items-center justify-between gap-3 text-sm">
-				<div class="flex flex-wrap gap-2">
-					<a href="/" class="rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">Portfolio</a>
-					<a href="/blog" class="rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">All posts</a>
-					<a href={`/blog/project/${post.data.projectKey}`} class="rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">
+			<nav class="site-topbar flex flex-nowrap items-center justify-between gap-3 overflow-x-auto rounded-md border border-border p-2 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+				<div class="flex shrink-0 gap-2">
+					<a href="/" class="whitespace-nowrap rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">Portfolio</a>
+					<a href="/blog" class="whitespace-nowrap rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">All posts</a>
+					<a href={`/blog/project/${post.data.projectKey}`} class="whitespace-nowrap rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">
 						Project feed
 					</a>
 				</div>
-				<p class="rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground">~/blog/post/{post.id}</p>
+				<p class="font-mono shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground">~/blog/post/{post.id}</p>
 			</nav>
 
-			<header class="rounded-lg border border-border bg-card p-6">
-				<p class="text-sm text-muted-foreground"><span class="mr-2 font-bold text-success">$</span>{post.data.projectName} · Part {post.data.part}</p>
+			<header class="site-topbar rounded-lg border border-border p-6">
+				<p class="font-mono text-sm text-muted-foreground"><span class="mr-2 font-bold text-success">$</span>{post.data.projectName} · Part {post.data.part}</p>
 				<h1 class="mt-2 text-3xl font-bold tracking-tight sm:text-5xl">{post.data.title}</h1>
 				<p class="mt-2 text-sm text-muted-foreground">Published {post.data.pubDate.toLocaleDateString()}</p>
-				<p class="mt-4 max-w-4xl text-sm leading-7 text-foreground/95">{post.data.description}</p>
+				<p class="mt-4 max-w-4xl text-base leading-7 text-foreground/95 sm:text-lg">{post.data.description}</p>
 				{post.data.tags.length > 0 && (
 					<ul class="mt-4 flex flex-wrap gap-2">
-						{post.data.tags.map((tag) => <li class="rounded-md border border-border bg-background px-2.5 py-1 text-xs text-primary">{tag}</li>)}
+						{post.data.tags.map((tag) => <li class="rounded-md border border-border bg-background px-2.5 py-1 text-xs font-mono text-primary">{tag}</li>)}
 					</ul>
 				)}
 			</header>

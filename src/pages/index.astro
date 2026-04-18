@@ -54,11 +54,11 @@ const sections = [
 			</svg>
 		</button>
 		<main class="flex min-h-screen w-full flex-col gap-7 py-6 sm:py-8">
-			<header class="sticky top-0 z-30 border-y-2 border-border bg-background/95 px-4 py-3 backdrop-blur sm:px-6">
+			<header class="site-topbar sticky top-0 z-30 border-y-2 border-border px-4 py-3 backdrop-blur sm:px-6">
 				<div class="flex flex-wrap items-center justify-between gap-3 text-sm">
 					<p class="text-muted-foreground">~/home/{name.toLowerCase().replace(' ', '')}/portfolio</p>
 				</div>
-				<nav aria-label="Section navigation" class="mt-3 border-t border-border pt-3">
+				<nav aria-label="Section navigation" class="mt-3 hidden border-t border-border pt-3 sm:block">
 					<ul class="flex gap-2 overflow-x-auto pb-1 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 						{
 							sections.map((section) => (
@@ -75,13 +75,55 @@ const sections = [
 							))
 						}
 					</ul>
-					<p class="mt-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground sm:hidden">Scroll sideways for more</p>
 				</nav>
 			</header>
 
-			<div class="mx-auto flex w-full max-w-400 flex-col gap-7 px-4 sm:px-6">
+			<aside class="mobile-rail-shell fixed bottom-4 left-2 top-22 z-40 w-12 rounded-2xl border border-border p-1.5 backdrop-blur sm:hidden">
+				<nav aria-label="Mobile section navigation" class="h-full">
+					<ul class="flex h-full flex-col items-center justify-start gap-3">
+						<li>
+							<a href="#hero" data-nav-link data-section-id="hero" class="mobile-rail-link block h-11 w-11 rounded-xl border border-transparent p-2.5 text-muted-foreground transition hover:bg-muted" aria-label="Go to hero section">
+								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+								<span class="mobile-rail-tooltip">Hero</span>
+							</a>
+						</li>
+						<li>
+							<a href="#about" data-nav-link data-section-id="about" class="mobile-rail-link block h-11 w-11 rounded-xl border border-transparent p-2.5 text-muted-foreground transition hover:bg-muted" aria-label="Go to about section">
+								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 20c1.7-3.2 4.1-4.8 7-4.8s5.3 1.6 7 4.8"/></svg>
+								<span class="mobile-rail-tooltip">About</span>
+							</a>
+						</li>
+						<li>
+							<a href="#projects" data-nav-link data-section-id="projects" class="mobile-rail-link block h-11 w-11 rounded-xl border border-transparent p-2.5 text-muted-foreground transition hover:bg-muted" aria-label="Go to projects section">
+								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+								<span class="mobile-rail-tooltip">Projects</span>
+							</a>
+						</li>
+						<li>
+							<a href="#blog" data-nav-link data-section-id="blog" class="mobile-rail-link block h-11 w-11 rounded-xl border border-transparent p-2.5 text-muted-foreground transition hover:bg-muted" aria-label="Go to blog section">
+								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19.5A2.5 2.5 0 0 1 5.5 17H20"/><path d="M5.5 17A2.5 2.5 0 0 0 3 14.5V5a2 2 0 0 1 2-2h15v14"/></svg>
+								<span class="mobile-rail-tooltip">Blog</span>
+							</a>
+						</li>
+						<li>
+							<a href="#skills" data-nav-link data-section-id="skills" class="mobile-rail-link block h-11 w-11 rounded-xl border border-transparent p-2.5 text-muted-foreground transition hover:bg-muted" aria-label="Go to skills section">
+								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 1 1.4 0l1.6 1.6a1 1 0 0 1 0 1.4l-7.8 7.8-3.1.8.8-3.1Z"/><path d="m12 8 4 4"/></svg>
+								<span class="mobile-rail-tooltip">Skills</span>
+							</a>
+						</li>
+						<li class="mt-auto">
+							<a href="#contact" data-nav-link data-section-id="contact" class="mobile-rail-link block h-11 w-11 rounded-xl border border-transparent p-2.5 text-muted-foreground transition hover:bg-muted" aria-label="Go to contact section">
+								<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="m3 8 9 6 9-6"/></svg>
+								<span class="mobile-rail-tooltip">Contact</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</aside>
 
-			<section id="hero" class="scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-6 relative overflow-hidden">
+			<div class="mx-auto flex w-full max-w-400 flex-col gap-7 px-4 pl-[4.25rem] sm:px-6 sm:pl-6">
+
+			<section id="hero" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-6 relative overflow-hidden">
 				<div aria-hidden="true" class="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
 				<div aria-hidden="true" class="absolute -bottom-10 -left-20 w-32 h-32 bg-primary/3 rounded-full blur-2xl"></div>
 				<div class="relative z-10">
@@ -130,7 +172,7 @@ const sections = [
 				</div>
 			</section>
 
-			<section id="about" class="scroll-mt-28 space-y-3 rounded-lg border-2 border-border bg-card p-6 relative">
+			<section id="about" class="mobile-section-pane scroll-mt-28 space-y-3 rounded-lg border-2 border-border bg-card p-6 relative">
 				<div aria-hidden="true" class="absolute top-0 right-0 w-20 h-20 border-2 border-primary/20 rounded-full"></div>
 				<h2 class="text-lg font-semibold uppercase tracking-[0.15em] text-primary">01 · About</h2>
 				<p class="leading-7 text-muted-foreground">
@@ -139,7 +181,7 @@ const sections = [
 				</p>
 			</section>
 
-			<section id="projects" class="scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-6 relative overflow-hidden">
+			<section id="projects" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-6 relative overflow-hidden">
 				<div aria-hidden="true" class="absolute -top-32 left-1/2 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2"></div>
 				<h2 class="text-lg font-semibold uppercase tracking-[0.15em] text-primary relative z-10">02 · Projects</h2>
 				<div class="grid gap-4 md:grid-cols-2 relative z-10">
@@ -171,7 +213,7 @@ const sections = [
 									{project.tech.map((item) => <li class="rounded-md border border-primary/30 bg-primary/5 px-2.5 py-1 text-xs font-medium text-primary">{item}</li>)}
 								</ul>
 								<div class="mt-4 flex items-center justify-between gap-3 border-t border-border pt-3 text-xs text-muted-foreground relative z-10">
-									<span>{blogPostCountByProject[project.key] ?? 0} devlog part(s)</span>
+									<span>{blogPostCountByProject[project.key] ?? 0} parts</span>
 									<a href={`/blog/project/${project.key}`} class="font-medium text-primary hover:underline">
 										Read devlog
 									</a>
@@ -182,7 +224,7 @@ const sections = [
 				</div>
 			</section>
 
-			<section id="blog" class="blog-section scroll-mt-28 space-y-6 rounded-lg border border-border/50 bg-card p-8 relative overflow-hidden">
+			<section id="blog" class="mobile-section-pane blog-section scroll-mt-28 space-y-6 rounded-lg border border-border/50 bg-card p-8 relative overflow-hidden">
 				<div class="absolute top-0 left-0 w-1 h-12 bg-gradient-to-b from-primary/60 to-transparent rounded-full"></div>
 				<div>
 					<h2 class="text-xl font-bold text-foreground">03 · Technical Writing</h2>
@@ -196,7 +238,7 @@ const sections = [
 				</a>
 			</section>
 
-			<section id="skills" class="scroll-mt-28 space-y-6 rounded-lg border border-border/50 bg-card p-8">
+			<section id="skills" class="mobile-section-pane scroll-mt-28 space-y-6 rounded-lg border border-border/50 bg-card p-8">
 				<div>
 					<h2 class="text-xl font-bold text-foreground">04 · Technologies</h2>
 					<p class="mt-2 text-sm text-foreground/60">Core tools across frontend, backend, and infrastructure.</p>
@@ -213,7 +255,7 @@ const sections = [
 				</ul>
 			</section>
 
-			<section id="contact" class="scroll-mt-28 space-y-8 rounded-lg border border-border/50 bg-card p-8">
+			<section id="contact" class="mobile-section-pane scroll-mt-28 space-y-8 rounded-lg border border-border/50 bg-card p-8">
 				<div>
 					<h2 class="text-xl font-bold text-foreground">05 · Let's Connect</h2>
 					<p class="mt-3 leading-7 text-foreground/75">Open to collaboration, interesting projects, and building things that matter. Reach out and let's talk.</p>
@@ -264,17 +306,12 @@ const sections = [
 				}
 
 				const navLinks = Array.from(document.querySelectorAll('[data-nav-link]'));
-				const sections = navLinks
-					.map((link) => {
-						const sectionId = link.getAttribute('data-section-id');
-						if (!sectionId) return null;
-						const sectionElement = document.getElementById(sectionId);
-						if (!sectionElement) return null;
-						return { sectionId, sectionElement };
-					})
-					.filter((entry) => entry !== null);
+				const observedSections = Array.from(document.querySelectorAll('main section[id]')).map((sectionElement) => ({
+					sectionId: sectionElement.id,
+					sectionElement,
+				}));
 
-				if (navLinks.length === 0 || sections.length === 0) return;
+				if (navLinks.length === 0 || observedSections.length === 0) return;
 
 				const setActiveLink = (activeId) => {
 					navLinks.forEach((link) => {
@@ -282,6 +319,13 @@ const sections = [
 						link.classList.toggle('bg-muted', isActive);
 						link.classList.toggle('text-primary', isActive);
 						link.setAttribute('aria-current', isActive ? 'page' : 'false');
+					});
+
+					const activeIndex = observedSections.findIndex((entry) => entry.sectionId === activeId);
+					if (activeIndex === -1) return;
+
+					observedSections.forEach((entry, index) => {
+						entry.sectionElement.classList.toggle('section-dimmed', index < activeIndex);
 					});
 				};
 
@@ -295,13 +339,13 @@ const sections = [
 						setActiveLink(visibleEntries[0].target.id);
 					},
 					{
-						rootMargin: '-35% 0px -50% 0px',
-						threshold: [0.2, 0.4, 0.6],
+						rootMargin: '-25% 0px -65% 0px',
+						threshold: [0],
 					}
 				);
 
-				sections.forEach(({ sectionElement }) => observer.observe(sectionElement));
-				setActiveLink(sections[0].sectionId);
+				observedSections.forEach(({ sectionElement }) => observer.observe(sectionElement));
+				setActiveLink(observedSections[0].sectionId);
 			})();
 		</script>
 
