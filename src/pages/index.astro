@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import { portfolioContent } from '../data/portfolio';
 import Analytics from '@vercel/analytics/astro';
 
-const { name, role, bio, skills, projects, email, github, linkedin, upwork } = portfolioContent;
+const { name, role, bio, skills, projects, cv, email, github, linkedin, upwork } = portfolioContent;
 const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 const blogPostCountByProject = blogPosts.reduce(
 	(accumulator, post) => {
@@ -63,6 +63,9 @@ const sections = [
 			<header class="site-topbar sticky top-0 z-30 border-y-2 border-border px-4 py-3 backdrop-blur sm:px-6">
 				<div class="flex flex-wrap items-center justify-between gap-3 text-sm">
 					<p class="text-muted-foreground">~/home/{name.toLowerCase().replace(' ', '')}/portfolio</p>
+					<a href={cv} download class="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/12 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary transition hover:border-primary/70 hover:bg-primary/20">
+						Download CV
+					</a>
 				</div>
 				<nav aria-label="Section navigation" class="mt-3 hidden border-t border-border pt-3 sm:block">
 					<ul class="flex gap-2 overflow-x-auto pb-1 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
@@ -166,6 +169,9 @@ const sections = [
 					</a>
 					<a class="rounded-md border-2 border-border px-3 py-2 hover:bg-muted" href={upwork} target="_blank" rel="noreferrer">
 						Upwork
+					</a>
+					<a class="rounded-md border-2 border-primary/50 bg-primary/12 px-3 py-2 font-semibold text-primary transition hover:bg-primary/20" href={cv} download>
+						Download CV
 					</a>
 						<a class="rounded-md border-2 border-primary bg-primary px-3 py-2 font-semibold text-primary-foreground transition hover:brightness-110" href={`mailto:${email}`}>
 							Email
@@ -302,20 +308,26 @@ const sections = [
 						</p>
 					</div>
 					<div class="flex flex-col items-start gap-4 lg:items-end">
-						<a 
-							class="contact-btn group inline-flex items-center gap-2.5 rounded-md border border-primary/40 bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 active:scale-95"
-							href={`mailto:${email}`}
-						>
-							<span>Send an email</span>
-							<svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M5 12h14"/>
-								<path d="m12 5 7 7-7 7"/>
-							</svg>
-						</a>
+						<div class="flex flex-wrap items-center gap-3">
+							<a 
+								class="contact-btn group inline-flex items-center gap-2.5 rounded-md border border-primary/40 bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 active:scale-95"
+								href={`mailto:${email}`}
+							>
+								<span>Send an email</span>
+								<svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M5 12h14"/>
+									<path d="m12 5 7 7-7 7"/>
+								</svg>
+							</a>
+							<a href={cv} download class="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/12 px-5 py-3.5 font-semibold text-primary transition hover:border-primary/70 hover:bg-primary/20 active:scale-95">
+								Download CV
+							</a>
+						</div>
 						<div class="flex flex-wrap items-center gap-5 text-xs uppercase tracking-[0.22em] text-muted-foreground">
 							<a class="transition hover:text-foreground" href={github} target="_blank" rel="noreferrer">GitHub</a>
 							<a class="transition hover:text-foreground" href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
 							<a class="transition hover:text-foreground" href={upwork} target="_blank" rel="noreferrer">Upwork</a>
+							<a class="font-semibold text-primary transition hover:text-foreground" href={cv} download>CV</a>
 						</div>
 					</div>
 				</div>
@@ -323,7 +335,9 @@ const sections = [
 
 			<footer class="flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-4 text-xs uppercase tracking-[0.28em] text-muted-foreground">
 				<span>{name} · Full-stack developer</span>
-				<span>© 2026</span>
+				<div class="flex items-center gap-3">
+					<span>© {new Date().getFullYear()}</span>
+				</div>
 			</footer>
 			</div>
 		</main>
