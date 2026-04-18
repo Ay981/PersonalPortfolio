@@ -13,6 +13,9 @@ const blogPostCountByProject = blogPosts.reduce(
 	{} as Record<string, number>
 );
 
+const frontendSkills = skills.filter((skill) => ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Astro', 'Redux Toolkit'].includes(skill));
+const backendSkills = skills.filter((skill) => ['Laravel', 'Node.js', 'Supabase', 'MySQL'].includes(skill));
+
 const sections = [
 	{ id: 'hero', label: 'Home' },
 	{ id: 'about', label: 'About' },
@@ -37,7 +40,9 @@ const sections = [
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');
-				const shouldUseDark = storedTheme ? storedTheme === 'dark' : true;
+					const shouldUseDark = storedTheme
+						? storedTheme === 'dark'
+						: window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 				document.documentElement.classList.toggle('dark', shouldUseDark);
 			})();
@@ -121,7 +126,7 @@ const sections = [
 				</nav>
 			</aside>
 
-			<div class="mx-auto flex w-full max-w-400 flex-col gap-7 px-4 pl-[4.25rem] sm:px-6 sm:pl-6">
+			<div class="mx-auto flex w-full max-w-400 flex-col gap-7 px-4 pl-17 sm:px-6 sm:pl-6">
 
 			<section id="hero" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border-2 border-border bg-card p-6 relative overflow-hidden">
 				<div aria-hidden="true" class="absolute -top-20 -right-20 w-40 h-40 bg-primary/5 rounded-full blur-3xl"></div>
@@ -197,7 +202,7 @@ const sections = [
 										decoding="async"
 										class="h-64 w-full object-cover object-center sm:h-72 md:h-80 lg:h-96 transition duration-300 group-hover:scale-105"
 									/>
-									<div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
+									<div aria-hidden="true" class="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
 								</div>
 								<div class="mb-2 flex items-center justify-between gap-3 relative z-10">
 									<h3 class="font-semibold text-lg">{project.title}</h3>
@@ -225,72 +230,91 @@ const sections = [
 			</section>
 
 			<section id="blog" class="mobile-section-pane blog-section scroll-mt-28 space-y-6 rounded-lg border border-border/50 bg-card p-8 relative overflow-hidden">
-				<div class="absolute top-0 left-0 w-1 h-12 bg-gradient-to-b from-primary/60 to-transparent rounded-full"></div>
-				<div>
-					<h2 class="text-xl font-bold text-foreground">03 · Technical Writing</h2>
-					<p class="mt-3 text-sm leading-7 text-foreground/75">Build logs by project. Implementation decisions, code patterns, architecture choices, and real tradeoffs. Written with the kind of depth engineers actually need.</p>
+				<div class="absolute top-0 left-0 h-12 w-1 rounded-full bg-linear-to-b from-primary/60 to-transparent"></div>
+				<div class="flex flex-wrap items-start justify-between gap-4 border-b border-border/60 pb-5">
+					<div class="space-y-2">
+						<p class="text-xs uppercase tracking-[0.26em] text-muted-foreground">03 · Blog</p>
+						<p class="max-w-2xl text-sm leading-7 text-foreground/75 sm:text-base">Build logs for every project — decisions, tradeoffs, and what I’d undo.</p>
+					</div>
+					<a href="/blog" class="blog-cta group inline-flex items-center gap-2.5 rounded-lg border border-primary/40 bg-primary/8 px-5 py-3.5 font-semibold text-primary transition-all duration-300 hover:border-primary/70 hover:bg-primary/12 active:scale-95">
+						<span>Browse devlog</span>
+						<svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M5 12h14M12 5l7 7-7 7"/>
+						</svg>
+					</a>
 				</div>
-				<a href="/blog" class="blog-cta group inline-flex items-center gap-2.5 rounded-lg border border-primary/40 bg-primary/8 px-5 py-3.5 font-semibold text-primary transition-all duration-300 hover:border-primary/70 hover:bg-primary/12 active:scale-95">
-					<span>Browse all articles</span>
-					<svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M5 12h14M12 5l7 7-7 7"/>
-					</svg>
-				</a>
 			</section>
 
 			<section id="skills" class="mobile-section-pane scroll-mt-28 space-y-6 rounded-lg border border-border/50 bg-card p-8">
-				<div>
-					<h2 class="text-xl font-bold text-foreground">04 · Technologies</h2>
-					<p class="mt-2 text-sm text-foreground/60">Core tools across frontend, backend, and infrastructure.</p>
+				<div class="flex flex-wrap items-start justify-between gap-4 border-b border-border/60 pb-5">
+					<div>
+						<p class="text-xs uppercase tracking-[0.26em] text-muted-foreground">04 · Stack</p>
+						<p class="mt-2 text-sm text-foreground/60">Frontend and backend tools I use most often.</p>
+					</div>
 				</div>
-				<ul class="flex flex-wrap gap-2.5">
-					{skills.map((skill, index) => (
-						<li 
-							class="skill-badge group rounded-lg border border-primary/25 bg-primary/6 px-3.5 py-2 text-sm font-medium text-primary/85 transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:scale-105 cursor-default"
-							style={`animation-delay: ${index * 50}ms`}
-						>
-							{skill}
-						</li>
-					))}
-				</ul>
+				<div class="space-y-5">
+					<div class="grid gap-3 sm:grid-cols-[7rem_1fr] sm:items-start">
+						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Frontend</p>
+						<ul class="flex flex-wrap gap-2.5">
+							{frontendSkills.map((skill, index) => (
+								<li
+									class="skill-badge group rounded-md border border-primary/25 bg-primary/6 px-3 py-2 text-sm font-medium text-primary/85 transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:scale-[1.02] cursor-default"
+									style={`animation-delay: ${index * 50}ms`}
+								>
+									{skill}
+								</li>
+							))}
+						</ul>
+					</div>
+					<div class="grid gap-3 sm:grid-cols-[7rem_1fr] sm:items-start">
+						<p class="pt-1 text-xs uppercase tracking-[0.24em] text-muted-foreground">Backend</p>
+						<ul class="flex flex-wrap gap-2.5">
+							{backendSkills.map((skill, index) => (
+								<li
+									class="skill-badge group rounded-md border border-primary/25 bg-primary/6 px-3 py-2 text-sm font-medium text-primary/85 transition-all duration-300 hover:border-primary/50 hover:bg-primary/10 hover:scale-[1.02] cursor-default"
+									style={`animation-delay: ${(index + frontendSkills.length) * 50}ms`}
+								>
+									{skill}
+								</li>
+							))}
+						</ul>
+					</div>
+				</div>
 			</section>
 
 			<section id="contact" class="mobile-section-pane scroll-mt-28 space-y-8 rounded-lg border border-border/50 bg-card p-8">
-				<div>
-					<h2 class="text-xl font-bold text-foreground">05 · Let's Connect</h2>
-					<p class="mt-3 leading-7 text-foreground/75">Open to collaboration, interesting projects, and building things that matter. Reach out and let's talk.</p>
-				</div>
-				<div class="flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
-					<a 
-						class="contact-btn group inline-flex items-center gap-2.5 rounded-lg border border-primary/40 bg-primary/10 px-5 py-3.5 font-semibold text-primary transition-all duration-300 hover:border-primary/70 hover:bg-primary/15 active:scale-95"
-						href={`mailto:${email}`}
-					>
-						<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<rect x="2" y="4" width="20" height="16" rx="2"/>
-							<path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-						</svg>
-						<span>Email</span>
-					</a>
-					<a class="contact-btn group inline-flex items-center gap-2.5 rounded-lg border border-border/40 bg-foreground/5 px-5 py-3.5 font-semibold text-foreground/70 transition-all duration-300 hover:border-border/60 hover:bg-foreground/8 active:scale-95" href={github} target="_blank" rel="noreferrer">
-						<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-							<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.415-4.033-1.415-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v 3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-						</svg>
-						<span>GitHub</span>
-					</a>
-					<a class="contact-btn group inline-flex items-center gap-2.5 rounded-lg border border-border/40 bg-foreground/5 px-5 py-3.5 font-semibold text-foreground/70 transition-all duration-300 hover:border-border/60 hover:bg-foreground/8 active:scale-95" href={linkedin} target="_blank" rel="noreferrer">
-						<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-							<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
-						</svg>
-						<span>LinkedIn</span>
-					</a>
-					<a class="contact-btn group inline-flex items-center gap-2.5 rounded-lg border border-border/40 bg-foreground/5 px-5 py-3.5 font-semibold text-foreground/70 transition-all duration-300 hover:border-border/60 hover:bg-foreground/8 active:scale-95" href={upwork} target="_blank" rel="noreferrer">
-						<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-							<path d="M8.306 1.5c-1.154 0-1.96.84-1.96 1.94v16.12H2.13V3.44C2.13 1.342 3.45 0 5.547 0h2.76zm7.686 4.847c-1.154 0-2.063.84-2.063 1.94 0 1.1.91 1.94 2.063 1.94 1.155 0 2.063-.84 2.063-1.94 0-1.098-.907-1.94-2.063-1.94zm-2.395 4.97v11.183h4.76V11.317c0-2.23 1.032-3.5 2.653-3.5 1.756 0 2.548 1.27 2.548 3.5v10.683h4.758V10.33c0-4.15-2.293-6.25-5.4-6.25-2.497 0-3.85 1.467-4.56 2.62V4.347z"/>
-						</svg>
-						<span>Upwork</span>
-					</a>
+				<div class="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-end">
+					<div class="space-y-4">
+						<p class="text-xs uppercase tracking-[0.26em] text-success">• Available for work</p>
+						<h2 class="text-4xl font-semibold tracking-tight sm:text-5xl">Let's build <span class="italic text-primary">something real.</span></h2>
+						<p class="max-w-2xl text-sm leading-7 text-foreground/60 sm:text-base">
+							Not open to everything — open to the right thing. If the problem is interesting, reach out.
+						</p>
+					</div>
+					<div class="flex flex-col items-start gap-4 lg:items-end">
+						<a 
+							class="contact-btn group inline-flex items-center gap-2.5 rounded-md border border-primary/40 bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 active:scale-95"
+							href={`mailto:${email}`}
+						>
+							<span>Send an email</span>
+							<svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M5 12h14"/>
+								<path d="m12 5 7 7-7 7"/>
+							</svg>
+						</a>
+						<div class="flex flex-wrap items-center gap-5 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+							<a class="transition hover:text-foreground" href={github} target="_blank" rel="noreferrer">GitHub</a>
+							<a class="transition hover:text-foreground" href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+							<a class="transition hover:text-foreground" href={upwork} target="_blank" rel="noreferrer">Upwork</a>
+						</div>
+					</div>
 				</div>
 			</section>
+
+			<footer class="flex flex-wrap items-center justify-between gap-3 border-t border-border/60 pt-4 text-xs uppercase tracking-[0.28em] text-muted-foreground">
+				<span>{name} · Full-stack developer</span>
+				<span>© 2026</span>
+			</footer>
 			</div>
 		</main>
 

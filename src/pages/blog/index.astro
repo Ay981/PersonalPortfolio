@@ -1,9 +1,9 @@
 ---
 import '../../../global.css';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import { portfolioContent } from '../../data/portfolio';
 
-let allPosts = [];
+let allPosts: CollectionEntry<'blog'>[] = [];
 try {
 	allPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 		(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
@@ -33,7 +33,9 @@ const postsByProject = portfolioContent.projects.map((project) => ({
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');
-				const shouldUseDark = storedTheme ? storedTheme === 'dark' : true;
+					const shouldUseDark = storedTheme
+						? storedTheme === 'dark'
+						: window.matchMedia('(prefers-color-scheme: dark)').matches;
 				document.documentElement.classList.toggle('dark', shouldUseDark);
 			})();
 		</script>
@@ -48,44 +50,73 @@ const postsByProject = portfolioContent.projects.map((project) => ({
 				<path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
 			</svg>
 		</button>
-		<main class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-8 sm:px-8 sm:py-12">
-			<header class="site-topbar rounded-lg border border-border p-6">
-				<p class="font-mono text-sm text-primary">$ ls blog/</p>
-				<h1 class="mt-2 text-3xl font-semibold sm:text-4xl">Project Devlog</h1>
-				<p class="mt-3 text-base leading-7 text-muted-foreground sm:text-lg">
-					Writing the journey behind each project in parts — what I learned, what broke, how I fixed it, and what I’d do better next.
-				</p>
-				<div class="mt-4 flex flex-wrap gap-2 text-sm">
-					<a href="/" class="rounded-md border border-border bg-background px-3 py-2 hover:bg-muted">Back to portfolio</a>
+		<main class="mx-auto flex w-full max-w-5xl flex-col gap-8 px-5 py-8 sm:px-8 sm:py-12">
+			<nav class="site-topbar flex flex-nowrap items-center justify-between gap-3 overflow-x-auto rounded-md border border-border p-2 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+				<div class="flex shrink-0 items-center gap-2">
+					<a href="/" class="breadcrumb-chip">Portfolio</a>
+					<span class="text-muted-foreground/40">/</span>
+					<span class="breadcrumb-chip breadcrumb-chip-active">All posts</span>
 				</div>
+				<p class="font-mono shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground">~/blog</p>
+			</nav>
+
+			<header class="blog-index-shell rounded-2xl border border-border p-6 sm:p-8">
+				<div class="mt-5 space-y-3">
+					<p class="font-mono text-sm text-primary">$ ls blog/</p>
+					<h1 class="text-3xl font-semibold tracking-tight sm:text-4xl">Project devlog</h1>
+					<p class="max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
+						A running log of how each project was built — decisions, tradeoffs, mistakes, and the pieces I’d change on the next pass.
+					</p>
+				</div>
+				
 			</header>
 
 			<section class="space-y-4">
 				{
 					postsByProject.map(({ project, posts }) => (
-						<article class="rounded-lg border border-border bg-card p-5">
-							<div class="mb-4 flex flex-wrap items-center justify-between gap-2">
-								<div>
-									<h2 class="text-xl font-semibold">{project.title}</h2>
-									<p class="text-xs text-muted-foreground">{posts.length} parts</p>
+						<article
+							class="project-index-shell rounded-2xl border border-border bg-card p-5 sm:p-6"
+							data-feed-card
+							data-feed-url={`/blog/project/${project.key}`}
+							tabindex="0"
+							role="link"
+							aria-label={`Open ${project.title} project feed`}
+						>
+							<div class="mb-4 flex flex-wrap items-start justify-between gap-4">
+								<div class="space-y-2">
+									<h2 class="text-xl font-semibold tracking-tight sm:text-2xl">{project.title}</h2>
+									<p class="max-w-3xl text-sm leading-7 text-muted-foreground">{project.description}</p>
+									<p class="text-xs uppercase tracking-[0.22em] text-muted-foreground">{posts.length} parts</p>
 								</div>
-								<a
-									href={`/blog/project/${project.key}`}
-									class="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-2 text-sm font-semibold text-primary transition hover:bg-muted"
-								>
+								<span class="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary transition">
 									View project feed
-								</a>
+								</span>
 							</div>
 							{posts.length > 0 ? (
 								<ul class="space-y-2">
-									{posts.map((post) => (
-										<li class="rounded-md border border-border bg-background p-3">
-											<a href={`/blog/post/${post.id}`} class="font-semibold text-primary hover:underline">
-												Part {post.data.part}: {post.data.title}
-											</a>
-											<p class="mt-1 text-sm text-muted-foreground">{post.data.description}</p>
-										</li>
-									))}
+									{posts.map((post, index) => {
+										const isFuture = post.data.draft || post.data.pubDate > new Date();
+										return (
+											<li class:list={['rounded-lg border px-4 py-3 transition', isFuture ? 'border-border/50 bg-background/40 opacity-50' : 'border-border bg-background']}>
+												<div class="flex flex-wrap items-start justify-between gap-3">
+													<div class="space-y-1">
+														<p class="text-[10px] uppercase tracking-[0.24em] text-muted-foreground">Part {String(post.data.part).padStart(2, '0')}</p>
+														{isFuture ? (
+															<span class="block text-sm font-semibold tracking-tight text-foreground/75 sm:text-base">{post.data.title}</span>
+														) : (
+															<a href={`/blog/post/${post.id}`} class="block text-sm font-semibold tracking-tight text-foreground transition hover:text-primary sm:text-base">
+																{post.data.title}
+															</a>
+														)}
+													</div>
+													<span class:list={['inline-flex items-center rounded-md border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em]', isFuture ? 'border-border/50 text-muted-foreground' : index === 0 ? 'border-success/40 bg-success/10 text-success' : 'border-primary/30 bg-primary/10 text-primary']}>
+														{isFuture ? 'Future' : index === 0 ? 'Live' : 'Published'}
+													</span>
+												</div>
+												<p class="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">{post.data.description}</p>
+											</li>
+										);
+									})}
 								</ul>
 							) : (
 								<p class="text-sm text-muted-foreground">No entries yet for this project.</p>
@@ -106,6 +137,23 @@ const postsByProject = portfolioContent.projects.map((project) => ({
 					const isDark = html.classList.toggle('dark');
 					localStorage.setItem('theme', isDark ? 'dark' : 'light');
 				});
+
+					const feedCards = Array.from(document.querySelectorAll('[data-feed-card]'));
+					feedCards.forEach((card) => {
+						const feedUrl = card.getAttribute('data-feed-url');
+						if (!feedUrl) return;
+
+						card.addEventListener('click', (event) => {
+							const target = event.target instanceof Element ? event.target : null;
+							if (target?.closest('a, button, [data-no-feed]')) return;
+							window.location.href = feedUrl;
+						});
+
+						card.addEventListener('keydown', (event) => {
+							if (event.key !== 'Enter' && event.key !== ' ') return;
+							window.location.href = feedUrl;
+						});
+					});
 			})();
 		</script>
 	</body>

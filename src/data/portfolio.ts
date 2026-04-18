@@ -44,7 +44,7 @@ export const portfolioContent: PortfolioContent = {
 			key: 'act-elearning',
 			title: 'ACT E-Learning Platform',
 			description:
-				'Modern full-stack learning platform with student, instructor, and admin roles, course management, quizzes, messaging, and progress tracking.',
+				'I built this to test how far a role-based learning platform could go without losing clarity, speed, or maintainability.',
 			tech: ['React', 'Vite', 'Tailwind CSS', 'Laravel', 'MySQL', 'Sanctum'],
 			url: 'https://github.com/Ay981/ACT',
 			screenshotUrl: '/projects/ACTelearning.png',
@@ -76,5 +76,6 @@ export const portfolioContent: PortfolioContent = {
 			url: 'https://github.com/Ay981/zeroday',
 			screenshotUrl: '/projects/zeroday.png',
 		},
+        
 	],
 };

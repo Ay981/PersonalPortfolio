@@ -12,6 +12,13 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const projectPosts = (await getCollection('blog', ({ data }) => data.projectKey === post.data.projectKey)).sort(
+	(a, b) => a.data.part - b.data.part
+);
+
+const currentIndex = projectPosts.findIndex((entry) => entry.id === post.id);
+const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 ---
 
 <html lang="en" class="h-full scroll-smooth">
@@ -22,12 +29,14 @@ const { Content } = await render(post);
 		<meta name="viewport" content="width=device-width" />
 		<title>{post.data.title} · Blog</title>
 		<meta name="description" content={post.data.description} />
-		<link rel="canonical" href={`https://aymenabdulkerim.dev/blog/post/${post.slug}/`} />
-		<meta property="og:url" content={`https://aymenabdulkerim.dev/blog/post/${post.slug}/`} />
+		<link rel="canonical" href={`https://aymenabdulkerim.dev/blog/post/${post.id}/`} />
+		<meta property="og:url" content={`https://aymenabdulkerim.dev/blog/post/${post.id}/`} />
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');
-				const shouldUseDark = storedTheme ? storedTheme === 'dark' : true;
+					const shouldUseDark = storedTheme
+						? storedTheme === 'dark'
+						: window.matchMedia('(prefers-color-scheme: dark)').matches;
 				document.documentElement.classList.toggle('dark', shouldUseDark);
 			})();
 		</script>
@@ -42,14 +51,16 @@ const { Content } = await render(post);
 				<path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
 			</svg>
 		</button>
-		<main class="mx-auto flex w-full max-w-300 flex-col gap-6 px-5 py-8 sm:px-8 sm:py-12">
+		<main class="mx-auto flex w-full max-w-5xl flex-col gap-6 px-5 py-8 sm:px-8 sm:py-12">
 			<nav class="site-topbar flex flex-nowrap items-center justify-between gap-3 overflow-x-auto rounded-md border border-border p-2 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-				<div class="flex shrink-0 gap-2">
-					<a href="/" class="whitespace-nowrap rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">Portfolio</a>
-					<a href="/blog" class="whitespace-nowrap rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">All posts</a>
-					<a href={`/blog/project/${post.data.projectKey}`} class="whitespace-nowrap rounded-md border border-border bg-card px-3 py-2 hover:bg-muted">
-						Project feed
-					</a>
+				<div class="flex shrink-0 items-center gap-2">
+					<a href="/" class="breadcrumb-chip">Portfolio</a>
+					<span class="text-muted-foreground/40">/</span>
+					<a href="/blog" class="breadcrumb-chip">All posts</a>
+					<span class="text-muted-foreground/40">/</span>
+					<a href={`/blog/project/${post.data.projectKey}`} class="breadcrumb-chip">{post.data.projectName}</a>
+					<span class="text-muted-foreground/40">/</span>
+					<span class="breadcrumb-chip breadcrumb-chip-active">Part {post.data.part}</span>
 				</div>
 				<p class="font-mono shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground">~/blog/post/{post.id}</p>
 			</nav>
@@ -61,7 +72,7 @@ const { Content } = await render(post);
 				<p class="mt-4 max-w-4xl text-base leading-7 text-foreground/95 sm:text-lg">{post.data.description}</p>
 				{post.data.tags.length > 0 && (
 					<ul class="mt-4 flex flex-wrap gap-2">
-						{post.data.tags.map((tag) => <li class="rounded-md border border-border bg-background px-2.5 py-1 text-xs font-mono text-primary">{tag}</li>)}
+						{post.data.tags.map((tag) => <li class="rounded-sm border border-border/70 px-2 py-1 text-[10px] font-mono uppercase tracking-[0.18em] text-muted-foreground">{tag}</li>)}
 					</ul>
 				)}
 			</header>
@@ -71,6 +82,34 @@ const { Content } = await render(post);
 					<Content />
 				</div>
 			</article>
+
+			{nextPost && (
+				<section class="next-part-shell rounded-lg border border-border bg-card p-5 sm:p-6">
+					<p class="text-xs uppercase tracking-[0.28em] text-muted-foreground">Up next · Part {String(nextPost.data.part).padStart(2, '0')}</p>
+					<div class="mt-3 flex flex-wrap items-start justify-between gap-4">
+						<div class="space-y-2">
+							<h2 class="text-xl font-semibold text-foreground/80">{nextPost.data.title}</h2>
+							<p class="max-w-3xl text-sm leading-7 text-muted-foreground">{nextPost.data.description}</p>
+						</div>
+						<div class="flex shrink-0 flex-col items-end gap-2 text-right">
+							<span class:list={[
+								'inline-flex items-center rounded-md border px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em]',
+								nextPost.data.pubDate > new Date() ? 'border-border/50 text-muted-foreground' : 'border-primary/30 bg-primary/10 text-primary',
+							]}>
+								{nextPost.data.pubDate > new Date() ? 'Not published yet' : 'Published'}
+							</span>
+							<a href={`/blog/project/${post.data.projectKey}`} class="inline-flex items-center gap-1 text-sm font-semibold text-primary transition hover:underline">
+								Go to series
+							</a>
+						</div>
+					</div>
+				</section>
+			)}
+
+			<footer class="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4 text-xs uppercase tracking-[0.28em] text-muted-foreground">
+				<a href={`/blog/project/${post.data.projectKey}`} class="transition hover:text-primary">← Back to {post.data.projectName}</a>
+				<span>Part {post.data.part} of {projectPosts.length}</span>
+			</footer>
 		</main>
 
 		<script is:inline>
@@ -111,15 +150,19 @@ const { Content } = await render(post);
 	.prose-shell :global(h2) {
 		margin-top: 1.75rem;
 		margin-bottom: 0.8rem;
-		font-size: 1.35rem;
-		font-weight: 700;
+		font-size: 0.86rem;
+		font-weight: 600;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--primary);
 	}
 
 	.prose-shell :global(h3) {
 		margin-top: 1.25rem;
 		margin-bottom: 0.6rem;
-		font-size: 1.05rem;
-		font-weight: 700;
+		font-size: 1.02rem;
+		font-weight: 600;
+		color: var(--foreground);
 	}
 
 	.prose-shell :global(p),
@@ -179,5 +222,31 @@ const { Content } = await render(post);
 		border-left: 2px solid var(--primary);
 		padding-left: 0.8rem;
 		color: var(--muted-foreground);
+	}
+
+	.breadcrumb-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		border: 1px solid transparent;
+		padding: 0.4rem 0.7rem;
+		border-radius: 999px;
+		transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+	}
+
+	.breadcrumb-chip:hover {
+		color: var(--foreground);
+		border-color: var(--border);
+		background: color-mix(in oklab, var(--background) 70%, transparent);
+	}
+
+	.breadcrumb-chip-active {
+		color: var(--foreground);
+		border-color: var(--border);
+		background: color-mix(in oklab, var(--background) 70%, transparent);
+	}
+
+	.next-part-shell {
+		background: linear-gradient(180deg, color-mix(in oklab, var(--background) 88%, var(--card)), color-mix(in oklab, var(--background) 76%, var(--card)));
 	}
 </style>

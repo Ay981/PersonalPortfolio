@@ -21,7 +21,9 @@ const navItems = [
 		<script is:inline>
 			(() => {
 				const storedTheme = localStorage.getItem('theme');
-				const shouldUseDark = storedTheme ? storedTheme === 'dark' : true;
+					const shouldUseDark = storedTheme
+						? storedTheme === 'dark'
+						: window.matchMedia('(prefers-color-scheme: dark)').matches;
 				document.documentElement.classList.toggle('dark', shouldUseDark);
 			})();
 		</script>
