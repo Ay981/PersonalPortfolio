@@ -1,0 +1,13 @@
+---
+import { portfolioContent } from '../../data/portfolio';
+
+export async function getStaticPaths() {
+	return portfolioContent.projects.map((projectItem) => ({
+		params: { project: projectItem.key },
+		props: { target: `/blog/project/${projectItem.key}` },
+	}));
+}
+
+const { target } = Astro.props;
+return Astro.redirect(target, 301);
+---
