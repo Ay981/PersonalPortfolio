@@ -60,13 +60,13 @@ if (!project) {
 		<main class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-8 sm:px-8 sm:py-12">
 			<nav class="site-topbar flex flex-nowrap items-center justify-between gap-3 overflow-x-auto rounded-md border border-border p-2 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 				<div class="flex shrink-0 items-center gap-2">
-					<a href="/" class="breadcrumb-chip">Portfolio</a>
+					<a href="/" class="breadcrumb-chip"><span class="sm:hidden">~</span><span class="hidden sm:inline">Portfolio</span></a>
 					<span class="text-muted-foreground/40">/</span>
-					<a href="/blog" class="breadcrumb-chip">All posts</a>
+					<a href="/blog" class="breadcrumb-chip"><span class="sm:hidden">posts</span><span class="hidden sm:inline">All posts</span></a>
 					<span class="text-muted-foreground/40">/</span>
-					<span class="breadcrumb-chip breadcrumb-chip-active">{project.title}</span>
+					<span class="breadcrumb-chip breadcrumb-chip-active"><span class="sm:hidden">../{project.key}</span><span class="hidden sm:inline">{project.title}</span></span>
 				</div>
-				<p class="font-mono shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground">~/blog/project/{project.key}</p>
+				<p class="font-mono hidden shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground sm:block">~/blog/project/{project.key}</p>
 			</nav>
 
 			<header class="project-feed-shell rounded-2xl border border-border p-6 sm:p-8">

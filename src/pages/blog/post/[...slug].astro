@@ -52,15 +52,15 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 		<main class="mx-auto flex w-full max-w-6xl flex-col gap-6 px-5 py-8 sm:px-8 sm:py-12">
 			<nav class="site-topbar flex flex-nowrap items-center justify-between gap-3 overflow-x-auto rounded-md border border-border p-2 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 				<div class="flex shrink-0 items-center gap-2">
-					<a href="/" class="breadcrumb-chip">Portfolio</a>
+					<a href="/" class="breadcrumb-chip"><span class="sm:hidden">~</span><span class="hidden sm:inline">Portfolio</span></a>
 					<span class="text-muted-foreground/40">/</span>
-					<a href="/blog" class="breadcrumb-chip">All posts</a>
+					<a href="/blog" class="breadcrumb-chip"><span class="sm:hidden">posts</span><span class="hidden sm:inline">All posts</span></a>
 					<span class="text-muted-foreground/40">/</span>
-					<a href={`/blog/project/${post.data.projectKey}`} class="breadcrumb-chip">{post.data.projectName}</a>
+					<a href={`/blog/project/${post.data.projectKey}`} class="breadcrumb-chip"><span class="sm:hidden">../{post.data.projectKey}</span><span class="hidden sm:inline">{post.data.projectName}</span></a>
 					<span class="text-muted-foreground/40">/</span>
-					<span class="breadcrumb-chip breadcrumb-chip-active">Part {post.data.part}</span>
+					<span class="breadcrumb-chip breadcrumb-chip-active"><span class="sm:hidden">P{post.data.part}</span><span class="hidden sm:inline">Part {post.data.part}</span></span>
 				</div>
-				<p class="font-mono shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground">~/blog/post/{post.id}</p>
+				<p class="font-mono hidden shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground sm:block">~/blog/post/{post.id}</p>
 			</nav>
 
 			<header class="site-topbar rounded-lg border border-border p-6">
