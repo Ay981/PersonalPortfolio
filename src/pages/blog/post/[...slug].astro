@@ -350,6 +350,27 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 					padding: 40px 0 80px;
 				}
 
+				.post-kicker {
+					margin-bottom: 16px;
+					padding-left: 1rem;
+				}
+
+				.post-kicker::before {
+					width: 0.7rem;
+				}
+
+				.post-header :global(h1) {
+					font-size: clamp(3rem, 10.5vw, 4.3rem);
+					line-height: 0.94;
+					letter-spacing: -0.045em;
+					text-wrap: balance;
+				}
+
+				.post-lede {
+					font-size: clamp(1.1rem, 5.1vw, 1.55rem);
+					line-height: 1.6;
+				}
+
 				.post-header {
 					padding: 0 0 32px;
 					margin-bottom: 40px;
@@ -362,6 +383,12 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				.content-measure,
 				.post-lede {
 					max-width: none;
+				}
+
+				.prose-shell :global(p),
+				.prose-shell :global(li) {
+					font-size: 1.12rem;
+					line-height: 1.72;
 				}
 			}
 		</style>
