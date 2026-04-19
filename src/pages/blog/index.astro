@@ -50,16 +50,35 @@ const postsByProject = portfolioContent.projects.map((project) => ({
 				<path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
 			</svg>
 		</button>
-		<main class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-8 sm:px-8 sm:py-12">
-			<nav class="site-topbar flex flex-nowrap items-center justify-between gap-3 overflow-x-auto rounded-md border border-border p-2 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-				<div class="flex shrink-0 items-center gap-2">
-					<a href="/" class="breadcrumb-chip">Portfolio</a>
-					<span class="text-muted-foreground/40">/</span>
-					<span class="breadcrumb-chip breadcrumb-chip-active">All posts</span>
-				</div>
-				<p class="font-mono shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground">~/blog</p>
-			</nav>
 
+		<nav class="site-topbar scroll-chrome scroll-chrome-nav w-full border-y border-border px-5 py-2 text-sm sm:px-8">
+			<div class="nav-inner flex w-full flex-nowrap items-center justify-between gap-3 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+				<div class="flex shrink-0 items-center gap-2">
+					<a href="/" class="breadcrumb-chip"><span class="sm:hidden">~</span><span class="hidden sm:inline">Portfolio</span></a>
+					<span class="text-muted-foreground/40">/</span>
+					<span class="breadcrumb-chip breadcrumb-chip-active"><span class="sm:hidden">posts</span><span class="hidden sm:inline">All posts</span></span>
+				</div>
+				<p class="font-mono hidden shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground sm:block">~/blog</p>
+			</div>
+		</nav>
+
+		<div class="blog-layout-wrapper">
+			<aside class="blog-projects-floating scroll-chrome scroll-chrome-side" aria-label="Blog project navigation">
+				<p class="blog-sidebar-heading">Projects</p>
+				<ul class="blog-sidebar-list">
+					{
+						postsByProject.map(({ project, posts }) => (
+							<li>
+								<a href={`#project-${project.key}`} class="blog-sidebar-link" aria-label={`Jump to ${project.title}`}>
+									<span class="blog-sidebar-link-meta">{posts.length} parts <span class="blog-sidebar-link-state">→</span></span>
+									<span class="blog-sidebar-link-title">{project.title}</span>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</aside>
+			<div class="blog-content-area">
 			<header class="blog-index-shell rounded-2xl border border-border p-6 sm:p-8">
 				<div class="mt-5 space-y-3">
 					<p class="font-mono text-sm text-primary">$ ls blog/</p>
@@ -75,7 +94,8 @@ const postsByProject = portfolioContent.projects.map((project) => ({
 				{
 					postsByProject.map(({ project, posts }) => (
 						<article
-							class="project-index-shell rounded-2xl border border-border bg-card p-5 sm:p-6"
+							id={`project-${project.key}`}
+							class="project-index-shell blog-project-anchor rounded-2xl border border-border bg-card p-5 sm:p-6"
 							data-feed-card
 							data-feed-url={`/blog/project/${project.key}`}
 							tabindex="0"
@@ -125,7 +145,8 @@ const postsByProject = portfolioContent.projects.map((project) => ({
 					))
 				}
 			</section>
-		</main>
+		</div>
+		</div>
 
 		<script is:inline>
 			(() => {
@@ -154,7 +175,184 @@ const postsByProject = portfolioContent.projects.map((project) => ({
 							window.location.href = feedUrl;
 						});
 					});
+
+				let previousY = window.scrollY;
+				let rafId = 0;
+				const hiddenClass = 'chrome-hidden';
+
+				const updateChromeVisibility = () => {
+					rafId = 0;
+					const currentY = window.scrollY;
+					const delta = currentY - previousY;
+
+					if (currentY <= 72) {
+						document.body.classList.remove(hiddenClass);
+					} else if (delta > 6) {
+						document.body.classList.add(hiddenClass);
+					} else if (delta < -6) {
+						document.body.classList.remove(hiddenClass);
+					}
+
+					previousY = currentY;
+				};
+
+				window.addEventListener(
+					'scroll',
+					() => {
+						if (rafId) return;
+						rafId = window.requestAnimationFrame(updateChromeVisibility);
+					},
+					{ passive: true }
+				);
 			})();
 		</script>
 	</body>
 </html>
+
+<style>
+	:root {
+		--page-max: 1400px;
+		--side-col: 220px;
+	}
+
+	.nav-inner {
+		max-width: var(--page-max);
+		margin: 0 auto;
+		padding: 0 48px;
+	}
+
+	.scroll-chrome {
+		transition: transform 220ms ease, opacity 220ms ease;
+		will-change: transform, opacity;
+	}
+
+	.scroll-chrome-nav {
+		position: sticky;
+		top: 0;
+		z-index: 45;
+		background: color-mix(in oklab, var(--background) 92%, transparent);
+		backdrop-filter: blur(6px);
+	}
+
+	body.chrome-hidden .scroll-chrome-nav {
+		transform: translateY(calc(-100% - 2px));
+	}
+
+	.blog-layout-wrapper {
+		max-width: var(--page-max);
+		margin: 0 auto;
+		padding: 0 48px;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+
+	.blog-projects-floating {
+		display: none;
+	}
+
+	.blog-sidebar-heading {
+		margin: 0 0 28px;
+		padding: 0 0 24px;
+		border-bottom: 1px solid var(--border);
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+		font-size: 9.5px;
+		letter-spacing: 0.18em;
+		color: var(--muted-foreground);
+		text-transform: uppercase;
+	}
+
+	.blog-sidebar-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.blog-sidebar-link {
+		display: block;
+		padding: 16px 0;
+		border-top: 1px solid var(--border);
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.blog-sidebar-link:last-child {
+		border-bottom: 1px solid var(--border);
+	}
+
+	.blog-sidebar-link-meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 6px;
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+		font-size: 9.5px;
+		letter-spacing: 0.14em;
+		color: var(--muted-foreground);
+		text-transform: uppercase;
+	}
+
+	.blog-sidebar-link-title {
+		font-size: 13.5px;
+		line-height: 1.5;
+		font-weight: 400;
+	}
+
+	.blog-sidebar-link-state {
+		font-size: 11px;
+		color: var(--primary);
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+	}
+
+	.blog-sidebar-link:hover .blog-sidebar-link-title {
+		color: var(--primary);
+	}
+
+	.blog-content-area {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		width: 100%;
+		padding: 40px 0 80px;
+	}
+
+	@media (min-width: 1280px) {
+		.blog-layout-wrapper {
+			grid-template-columns: var(--side-col) minmax(0, 1fr);
+		}
+
+		.blog-projects-floating {
+			display: block;
+			position: sticky;
+			top: 56px;
+			padding: 64px 40px 64px 0;
+			border-right: 1px solid var(--border);
+			min-height: calc(100vh - 56px);
+			overflow-y: auto;
+		}
+
+		body.chrome-hidden .scroll-chrome-side {
+			opacity: 0;
+			transform: translateY(-18px);
+			pointer-events: none;
+		}
+
+		.blog-content-area {
+			padding: 64px 0 120px 32px;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.nav-inner {
+			padding: 0 24px;
+		}
+
+		.blog-layout-wrapper {
+			padding: 0 24px;
+		}
+
+		.blog-content-area {
+			padding: 40px 0 80px;
+		}
+	}
+</style>

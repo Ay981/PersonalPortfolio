@@ -59,8 +59,8 @@ if (!project) {
 				<path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path>
 			</svg>
 		</button>
-		<main class="mx-auto flex w-full max-w-6xl flex-col gap-8 px-5 py-8 sm:px-8 sm:py-12">
-			<nav class="site-topbar flex flex-nowrap items-center justify-between gap-3 overflow-x-auto rounded-md border border-border p-2 text-sm [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+		<nav class="site-topbar scroll-chrome scroll-chrome-nav w-full border-y border-border px-5 py-2 text-sm sm:px-8">
+			<div class="nav-inner flex w-full flex-nowrap items-center justify-between gap-3 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 				<div class="flex shrink-0 items-center gap-2">
 					<a href="/" class="breadcrumb-chip"><span class="sm:hidden">~</span><span class="hidden sm:inline">Portfolio</span></a>
 					<span class="text-muted-foreground/40">/</span>
@@ -69,8 +69,12 @@ if (!project) {
 					<span class="breadcrumb-chip breadcrumb-chip-active"><span class="sm:hidden">../{project.key}</span><span class="hidden sm:inline">{project.title}</span></span>
 				</div>
 				<p class="font-mono hidden shrink-0 rounded-md border border-border bg-card px-3 py-2 text-xs text-muted-foreground sm:block">~/blog/project/{project.key}</p>
-			</nav>
-
+			</div>
+		</nav>
+		<main class="page-wrapper">
+			<section class="project-layout-shell">
+				<aside class="project-sidebar-spacer" aria-hidden="true"></aside>
+				<div class="project-main-stack">
 			<header class="project-feed-shell rounded-2xl border border-border p-6 sm:p-8">
 				<div class="flex flex-wrap items-start justify-between gap-4">
 					<div class="space-y-4">
@@ -160,6 +164,8 @@ if (!project) {
 					);
 				})}
 			</section>
+				</div>
+			</section>
 		</main>
 
 		<script is:inline>
@@ -172,12 +178,92 @@ if (!project) {
 					const isDark = html.classList.toggle('dark');
 					localStorage.setItem('theme', isDark ? 'dark' : 'light');
 				});
+
+				let previousY = window.scrollY;
+				let rafId = 0;
+				const hiddenClass = 'chrome-hidden';
+
+				const updateChromeVisibility = () => {
+					rafId = 0;
+					const currentY = window.scrollY;
+					const delta = currentY - previousY;
+
+					if (currentY <= 72) {
+						document.body.classList.remove(hiddenClass);
+					} else if (delta > 6) {
+						document.body.classList.add(hiddenClass);
+					} else if (delta < -6) {
+						document.body.classList.remove(hiddenClass);
+					}
+
+					previousY = currentY;
+				};
+
+				window.addEventListener(
+					'scroll',
+					() => {
+						if (rafId) return;
+						rafId = window.requestAnimationFrame(updateChromeVisibility);
+					},
+					{ passive: true }
+				);
 			})();
 		</script>
 	</body>
 </html>
 
 <style>
+	:root {
+		--page-max: 1400px;
+		--side-col: 220px;
+	}
+
+	.nav-inner {
+		max-width: var(--page-max);
+		margin: 0 auto;
+		padding: 0 48px;
+	}
+
+	.scroll-chrome {
+		transition: transform 220ms ease, opacity 220ms ease;
+		will-change: transform, opacity;
+	}
+
+	.scroll-chrome-nav {
+		position: sticky;
+		top: 0;
+		z-index: 45;
+		background: color-mix(in oklab, var(--background) 92%, transparent);
+		backdrop-filter: blur(6px);
+	}
+
+	body.chrome-hidden .scroll-chrome-nav {
+		transform: translateY(calc(-100% - 2px));
+	}
+
+	.page-wrapper {
+		max-width: var(--page-max);
+		margin: 0 auto;
+		padding: 0 48px;
+	}
+
+	.project-layout-shell {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+
+	.project-sidebar-spacer {
+		display: none;
+	}
+
+	.project-main-stack {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		padding: 40px 0 80px;
+	}
+
 	.project-feed-shell {
 		position: relative;
 		overflow: hidden;
@@ -244,5 +330,35 @@ if (!project) {
 		color: var(--foreground);
 		border-color: var(--border);
 		background: color-mix(in oklab, var(--background) 70%, transparent);
+	}
+
+	@media (min-width: 1280px) {
+		.project-layout-shell {
+			grid-template-columns: var(--side-col) minmax(0, 1fr);
+		}
+
+		.project-sidebar-spacer {
+			display: block;
+			border-right: 1px solid var(--border);
+			min-height: calc(100vh - 56px);
+		}
+
+		.project-main-stack {
+			padding: 64px 0 120px 32px;
+		}
+	}
+
+	@media (max-width: 800px) {
+		.nav-inner {
+			padding: 0 24px;
+		}
+
+		.page-wrapper {
+			padding: 0 24px;
+		}
+
+		.project-main-stack {
+			padding: 40px 0 80px;
+		}
 	}
 </style>
