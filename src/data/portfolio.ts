@@ -69,7 +69,7 @@ export const portfolioContent: PortfolioContent = {
 				'POS-style dashboard featuring order workflows, admin management, receipt verification, and personalized recommendations backed by Supabase.',
 			tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase'],
 			url: 'https://github.com/Ay981/le-restaurant',
-			screenshotUrl: '/projects/le-restaurant.png',
+			screenshotUrl: '/projects/restaurant.png',
 		},
 		{
 			key: 'zeroday',
