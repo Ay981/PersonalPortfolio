@@ -78,7 +78,7 @@ export const portfolioContent: PortfolioContent = {
 				'Authenticated Laravel API for bug reporting with Sanctum auth, report CRUD endpoints, user stats, and program-based workflows.',
 			tech: ['Laravel', 'PHP', 'Sanctum', 'REST API'],
 			url: 'https://github.com/Ay981/zeroday',
-			screenshotUrl: '/projects/zeroday.png',
+			screenshotUrl: '/projects/zerodayss.png',
 		},
         
 	],
