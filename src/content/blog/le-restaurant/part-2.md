@@ -11,18 +11,21 @@ tags:
   - Product Engineering
 ---
 
-## Focus for this part
+## Intro
 
-This placeholder captures the order lifecycle and how admin actions map to safe transitions.
+This part focuses on enforcing safe order transitions and capturing traceable admin actions.
 
-## Placeholder implementation notes
+## Context
 
-- Restrict invalid status jumps.
-- Persist who performed each admin action.
-- Surface clear reason fields for rejected orders.
+With the workflow baseline in place, this step adds guardrails so invalid actions do not corrupt operational state.
+
+## Work done
+
+- Added transition restrictions between statuses.
+- Planned audit-friendly tracking for who performed actions.
+- Introduced explicit rejection reasons for better support context.
 
 ```ts
-// Placeholder transition guard
 const canTransition = (from: string, to: string) => {
 	const allowed: Record<string, string[]> = {
 		pending: ['in_progress', 'rejected'],
@@ -32,6 +35,14 @@ const canTransition = (from: string, to: string) => {
 };
 ```
 
-## Next part idea
+## Challenges
+
+The tradeoff was strict workflow safety versus flexibility for unusual operations.
+
+## Result
+
+Admin actions became more predictable and easier to audit.
+
+## Next step
 
 Part 3 will cover receipt verification UX and reconciliation edge cases.

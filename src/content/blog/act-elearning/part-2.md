@@ -11,18 +11,21 @@ tags:
   - Laravel
 ---
 
-## What I focused on
+## Intro
 
-This part documents how course entities were structured and how enrollment interactions were translated into predictable API contracts.
+This part focuses on how course entities and enrollment interactions are represented through stable API contracts.
 
-## Placeholder notes
+## Context
 
-- Validate input shape at request boundaries.
-- Keep course, lesson, and enrollment concerns decoupled.
-- Return stable response envelopes for frontend caching.
+After defining architecture in Part 1, the next step is making sure backend models and frontend expectations stay in sync.
+
+## Work done
+
+- Outlined entity boundaries for courses, lessons, and enrollments.
+- Defined request and response shapes for enrollment flows.
+- Kept response envelopes consistent for predictable frontend caching.
 
 ```ts
-// Placeholder pseudo-contract
 export type EnrollmentResponse = {
 	data: {
 		enrollmentId: string;
@@ -32,6 +35,14 @@ export type EnrollmentResponse = {
 };
 ```
 
-## Next part idea
+## Challenges
 
-In Part 3, I’ll cover quiz attempts, scoring strategy, and progress calculation tradeoffs.
+The key tradeoff was balancing strict API contracts with flexibility for future course workflow changes.
+
+## Result
+
+The API shape is now clearer for clients and easier to validate at request boundaries.
+
+## Next step
+
+Part 3 will cover quiz attempts, scoring strategy, and progress calculation tradeoffs.

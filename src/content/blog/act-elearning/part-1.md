@@ -13,15 +13,21 @@ tags:
 
 ## Why this project
 
-I wanted to build a full-stack learning platform with a real workflow for students, instructors, and admins.
-The goal was to balance product clarity with maintainable backend rules.
+## Intro
 
-## Stack direction
+This part covers the initial architecture decisions for ACT E-Learning and why I set boundaries before adding UI complexity.
 
-I chose React + Vite for a fast frontend feedback loop, and Laravel for structured APIs and authentication.
+## Context
+
+The project is a role-based LMS for students, instructors, and admins. I needed a structure that keeps authorization clear as features grow.
+
+## Work done
+
+- Defined role boundaries and access rules up front.
+- Chose React + Vite for fast frontend iteration.
+- Chose Laravel for authenticated API structure and backend rules.
 
 ```ts
-// Example role guard concept used in frontend route handling
 const canAccess = (role: 'student' | 'instructor' | 'admin', route: string) => {
 	if (route.startsWith('/admin')) return role === 'admin';
 	if (route.startsWith('/instructor')) return role === 'instructor' || role === 'admin';
@@ -29,18 +35,14 @@ const canAccess = (role: 'student' | 'instructor' | 'admin', route: string) => {
 };
 ```
 
-## Lesson learned
+## Challenges
 
-Define role boundaries early. If roles are loosely defined at the beginning, every new feature introduces hidden authorization debt.
+The main challenge was preventing role logic from becoming scattered across routes and components.
 
-## Image support
+## Result
 
-### Example screenshot
+Access control became predictable and easier to maintain, which reduced hidden authorization debt before larger features landed.
 
-![ACT E-Learning course listing example](/projects/ACTelearning.png)
+## Next step
 
-When adding screenshots, place images in `public/blog/act-elearning/` and reference them like this:
-
-```md
-![Dashboard screenshot](/blog/act-elearning/dashboard-v1.png)
-```
+The next part covers course data modeling and API contracts for enrollment and content delivery.

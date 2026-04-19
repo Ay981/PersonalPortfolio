@@ -42,9 +42,9 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 		</script>
 		<style>
 			:root {
-				--page-max: 1400px;
+				--page-max: 1560px;
 				--side-col: 220px;
-				--content-col: 750px;
+				--content-col: 920px;
 			}
 
 			.nav-inner,
@@ -326,7 +326,7 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				}
 
 				.post-main-stack {
-					padding: 64px 0 120px 32px;
+					padding: 64px 0 120px 24px;
 				}
 
 				.post-header,
@@ -335,8 +335,8 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				.content-measure,
 				.next-part-shell,
 				.article-footer {
-					max-width: 900px;
-					padding-right: 64px;
+					max-width: 1020px;
+					padding-right: 16px;
 				}
 			}
 
@@ -468,19 +468,33 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 							<p class="text-xs uppercase tracking-[0.28em] text-muted-foreground">Up next · Part {String(nextPost.data.part).padStart(2, '0')}</p>
 							<div class="mt-3 flex flex-wrap items-start justify-between gap-4">
 								<div class="space-y-2">
-									<h2 class="text-xl font-semibold text-foreground/80">{nextPost.data.title}</h2>
+									{
+										nextPost.data.draft || nextPost.data.pubDate > new Date() ? (
+											<h2 class="text-xl font-semibold text-foreground/80">{nextPost.data.title}</h2>
+										) : (
+											<a href={`/blog/post/${nextPost.id}/`} class="text-xl font-semibold text-primary transition hover:underline">{nextPost.data.title}</a>
+										)
+									}
 									<p class="max-w-3xl text-sm leading-7 text-muted-foreground">{nextPost.data.description}</p>
 								</div>
 								<div class="flex shrink-0 flex-col items-end gap-2 text-right">
 									<span class:list={[
 										'inline-flex items-center rounded-md border px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em]',
-										nextPost.data.pubDate > new Date() ? 'border-border/50 text-muted-foreground' : 'border-primary/30 bg-primary/10 text-primary',
+										nextPost.data.draft || nextPost.data.pubDate > new Date() ? 'border-border/50 text-muted-foreground' : 'border-primary/30 bg-primary/10 text-primary',
 									]}>
-										{nextPost.data.pubDate > new Date() ? 'Not published yet' : 'Published'}
+										{nextPost.data.draft || nextPost.data.pubDate > new Date() ? 'Not published yet' : 'Published'}
 									</span>
-									<a href={`/blog/project/${post.data.projectKey}`} class="inline-flex items-center gap-1 text-sm font-semibold text-primary transition hover:underline">
-										Go to series
-									</a>
+									{
+										nextPost.data.draft || nextPost.data.pubDate > new Date() ? (
+											<a href={`/blog/project/${post.data.projectKey}`} class="inline-flex items-center gap-1 text-sm font-semibold text-primary transition hover:underline">
+												Go to series
+											</a>
+										) : (
+											<a href={`/blog/post/${nextPost.id}/`} class="inline-flex items-center gap-1 text-sm font-semibold text-primary transition hover:underline">
+												Read next part →
+											</a>
+										)
+									}
 								</div>
 							</div>
 						</section>

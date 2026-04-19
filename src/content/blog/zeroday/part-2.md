@@ -11,24 +11,35 @@ tags:
   - API
 ---
 
-## Focus for this part
+## Intro
 
-This placeholder entry tracks how request validation and error responses are normalized for client developers.
+This part documents how validation and error contracts are standardized for API consumers.
 
-## Placeholder strategy
+## Context
 
-- Validate all writable endpoints with explicit rules.
-- Return consistent error payloads.
-- Keep success and failure response formats predictable.
+After defining baseline endpoints, consistent request validation and failure formats are required for reliable client behavior.
+
+## Work done
+
+- Applied explicit validation rules to writable endpoints.
+- Standardized error payload shape.
+- Aligned success and failure response formats.
 
 ```php
-// Placeholder Laravel snippet
 $request->validate([
-    'title' => ['required', 'string', 'max:140'],
-    'severity' => ['required', 'in:Low,Medium,High,Critical'],
+  'title' => ['required', 'string', 'max:140'],
+  'severity' => ['required', 'in:Low,Medium,High,Critical'],
 ]);
 ```
 
-## Next part idea
+## Challenges
+
+The main challenge was being strict enough to prevent bad data without making client integration brittle.
+
+## Result
+
+API clients now receive predictable validation behavior and clearer error semantics.
+
+## Next step
 
 Part 3 will cover rate-limiting decisions and pagination behavior for reports.

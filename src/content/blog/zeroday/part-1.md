@@ -11,14 +11,19 @@ tags:
   - Sanctum
 ---
 
-## API goals
+## Intro
 
-I wanted a clear API that supports secure authentication and practical bug report management.
-The main priority was consistency in response shape and endpoint behavior.
+This part introduces how I structured the ZeroDay API for authenticated bug reporting.
 
-## Consistent response shape
+## Context
 
-Using Laravel resources around a `data` wrapper helped keep frontend parsing predictable.
+The API needed secure authentication and predictable report workflows that frontend clients can integrate without guesswork.
+
+## Work done
+
+- Built endpoints around Sanctum-authenticated access.
+- Standardized response envelopes with Laravel resources.
+- Kept report lifecycle endpoints consistent in shape and behavior.
 
 ```json
 {
@@ -30,7 +35,14 @@ Using Laravel resources around a `data` wrapper helped keep frontend parsing pre
 }
 ```
 
-## Lesson learned
+## Challenges
 
-The biggest speedup for frontend integration is response consistency, not endpoint count.
-A small, stable contract saves time across the whole project lifecycle.
+The challenge was keeping the contract stable while still leaving room for future report metadata.
+
+## Result
+
+Frontend integration became faster because every endpoint follows the same response expectations.
+
+## Next step
+
+Part 2 covers validation strategy and consistent error handling.

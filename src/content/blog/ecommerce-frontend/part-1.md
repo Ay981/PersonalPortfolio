@@ -11,27 +11,32 @@ tags:
   - RTK Query
 ---
 
-## Theme system first
+## Intro
 
-I prioritized theme architecture early because visual consistency affects every component.
-A stable token system made dark mode easier to maintain as pages expanded.
+This part documents the initial frontend decisions for theme consistency, data flow, and resilient product-listing UX.
 
-## Data flow notes
+## Context
 
-RTK Query helped keep request state predictable and avoided manual loading/error boilerplate.
+E-commerce pages require fast feedback and stable UI states, especially around loading, filtering, and errors.
+
+## Work done
+
+- Established theme tokens early to keep dark mode consistent.
+- Used RTK Query for predictable request and cache behavior.
+- Standardized loading and error states in listing views.
 
 ```ts
 const { data, isLoading, error } = useGetProductsQuery({ categoryId, page });
 ```
 
-## Lesson learned
+## Challenges
 
-In commerce UI, reliability beats visual complexity. Clear loading states and failure paths improve trust more than decorative interactions.
+The main challenge was keeping UI responsive without introducing brittle state logic as filters and categories grow.
 
-## Add screenshots
+## Result
 
-Use local static images per project:
+The listing flow became easier to reason about and users get clearer feedback during loading and failure states.
 
-```md
-![Product list view](/blog/ecommerce-frontend/listing-page.png)
-```
+## Next step
+
+Part 2 covers product listing performance and perceived speed improvements.

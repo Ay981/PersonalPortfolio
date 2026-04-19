@@ -11,20 +11,32 @@ tags:
   - Product Design
 ---
 
-## Start from state transitions
+## Intro
 
-I defined order statuses and transitions first (`pending`, `in_progress`, `delivered`, `rejected`) before building polished UI.
-That made edge cases easier to reason about.
+This part covers how I designed the core POS workflow before polishing interface details.
+
+## Context
+
+The dashboard supports order handling and admin decision-making, so state transitions need to be explicit and reliable.
+
+## Work done
+
+- Defined the order lifecycle and valid transitions first.
+- Modeled admin review actions as domain events.
+- Built UI flows around operational clarity instead of visual effects.
 
 ```ts
 type OrderStatus = 'pending' | 'in_progress' | 'delivered' | 'rejected';
 ```
 
-## Receipt review process
+## Challenges
 
-Manual review logic required clear feedback paths for both admins and users.
-I treated decisions as domain events instead of just UI button clicks.
+The hardest part was keeping edge-case handling clear for both admins and customers.
 
-## Lesson learned
+## Result
 
-When operations and support teams use your product, workflow clarity is more important than dashboard aesthetics.
+Order workflows became easier to reason about and support teams get clearer action paths.
+
+## Next step
+
+Part 2 covers state-machine guardrails and audit-friendly admin actions.
