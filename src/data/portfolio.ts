@@ -60,7 +60,7 @@ export const portfolioContent: PortfolioContent = {
 				'Production-ready Next.js storefront with TypeScript, RTK Query data flows, responsive UI, and robust dark mode/theme support.',
 			tech: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Redux Toolkit', 'RTK Query'],
 			url: 'https://github.com/Ay981/ecommerce-frontend',
-			screenshotUrl: '/projects/ecommerce-frontend.png',
+			screenshotUrl: '/projects/ecommerce-frontend.svg',
 		},
 		{
 			key: 'le-restaurant',
