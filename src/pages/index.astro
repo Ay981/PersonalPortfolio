@@ -14,8 +14,8 @@ const blogPostCountByProject = blogPosts.reduce(
 	{} as Record<string, number>
 );
 
-const frontendPrimarySkills = ['React', 'TypeScript', 'TanStack Query'];
-const backendPrimarySkills = ['Laravel', 'PostgreSQL'];
+const frontendPrimarySkills = ['React', 'TypeScript', 'TanStack Query', 'Tailwind CSS'];
+const backendPrimarySkills = ['Laravel', 'PostgreSQL','MySQl'];
 const familiarSkills = skills.filter((skill) => ![...frontendPrimarySkills, ...backendPrimarySkills].includes(skill));
 
 const sections = [
