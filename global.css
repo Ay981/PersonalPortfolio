@@ -253,6 +253,7 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	line-height: 0;
 	width: 2.75rem;
 	height: 2.75rem;
 	border: 2px solid var(--border);
@@ -261,6 +262,17 @@
 	color: var(--foreground);
 	backdrop-filter: blur(6px);
 	transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-toggle-fab svg {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 18px;
+	height: 18px;
+	transform: translate(-50%, -50%);
+	display: block;
+	flex-shrink: 0;
 }
 
 .theme-toggle-fab:hover {
@@ -492,6 +504,14 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	line-height: 0;
+}
+
+.mobile-rail-link svg {
+	display: block;
+	width: 1.125rem;
+	height: 1.125rem;
+	flex-shrink: 0;
 }
 
 .mobile-rail-link::before {
