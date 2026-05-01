@@ -27,7 +27,7 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 		<title>{post.data.title} · Blog</title>
 		<meta name="description" content={post.data.description} />
 		<link rel="canonical" href={`https://aymenabdulkerim.dev/blog/post/${post.id}/`} />
@@ -41,12 +41,20 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 			})();
 		</script>
 		<style>
+			/* ─── Layout tokens ─────────────────────────────────────────── */
 			:root {
 				--page-max: 1560px;
 				--side-col: 220px;
 				--content-col: 920px;
 			}
 
+			/* Hard stop: nothing can make the page scroll horizontally */
+			html, body {
+				max-width: 100%;
+				overflow-x: hidden;
+			}
+
+			/* ─── Page chrome ───────────────────────────────────────────── */
 			.nav-inner,
 			.page-wrapper {
 				max-width: var(--page-max);
@@ -71,6 +79,7 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				transform: translateY(calc(-100% - 2px));
 			}
 
+			/* ─── Page layout ───────────────────────────────────────────── */
 			.page-wrapper {
 				display: flex;
 				width: 100%;
@@ -95,11 +104,31 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				padding: 40px 0 80px 32px;
 			}
 
+			/* ─── Content measure (single source of truth) ──────────────── */
+			/*
+			 * All three previous style blocks were fighting over these
+			 * selectors. This is the ONE place they are defined now.
+			 * The cascade is: base → ≥1280px → ≤420px.
+			 */
+			.content-measure,
+			.post-header,
+			.article-shell,
+			.post-lede,
+			.next-part-shell,
+			.article-footer {
+				max-width: 720px;
+				margin-left: auto;
+				margin-right: auto;
+				padding-left: 1rem;
+				padding-right: 1rem;
+			}
+
+			/* ─── Post header ───────────────────────────────────────────── */
 			.post-header {
-				padding: 0 0 56px;
+				padding-top: 0;
+				padding-bottom: 56px;
 				border-bottom: 1px solid var(--border);
 				margin-bottom: 56px;
-				max-width: 85%;
 			}
 
 			.post-kicker {
@@ -119,24 +148,20 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				transform: translateY(-50%);
 			}
 
-			.post-lede,
-			.content-measure,
-			.next-part-shell,
-			.article-footer {
-				max-width: none;
-			}
-
+			/* ─── Article shell ─────────────────────────────────────────── */
 			.article-shell {
 				position: relative;
 				overflow: visible;
-				padding: 0 0 48px;
+				padding-top: 0;
+				padding-bottom: 48px;
 				margin-bottom: 56px;
 				border-bottom: 1px solid var(--border);
-				max-width: none;
 			}
 
+			/* ─── Next-part & footer ────────────────────────────────────── */
 			.next-part-shell {
-				padding: 0 0 40px;
+				padding-top: 0;
+				padding-bottom: 40px;
 				margin-top: 8px;
 				border-bottom: 1px solid var(--border);
 			}
@@ -146,10 +171,11 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				margin-top: 16px;
 			}
 
+			/* ─── Prose typography ──────────────────────────────────────── */
 			.prose-shell :global(h2) {
 				margin-top: 0;
 				margin-bottom: 16px;
-				font-size: 9.5px;
+				font-size: 11px;
 				font-weight: 600;
 				letter-spacing: 0.18em;
 				text-transform: uppercase;
@@ -167,12 +193,17 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				max-width: 40px;
 			}
 
-			.prose-shell :global(p),
+			.prose-shell :global(p) {
+				line-height: 1.85;
+				color: color-mix(in oklab, var(--foreground) 92%, var(--muted-foreground));
+				font-size: 18px;
+				margin-bottom: 22px;
+			}
+
 			.prose-shell :global(li) {
-				line-height: 1.75;
-				color: color-mix(in oklab, var(--foreground) 88%, var(--muted-foreground));
-				font-size: 17px;
-				margin-bottom: 20px;
+				line-height: 1.85;
+				font-size: 17.5px;
+				margin-bottom: 18px;
 			}
 
 			.prose-shell :global(ul),
@@ -189,8 +220,18 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				font-size: 0.85rem;
 			}
 
+			/* Ensure prose wrapper never causes page-level horizontal scroll */
+			.prose-shell {
+				max-width: 100%;
+				overflow-x: hidden;
+			}
+
 			.prose-shell :global(pre) {
+				/* Scroll only the block itself, not the whole page */
 				overflow-x: auto;
+				max-width: 100%;
+				box-sizing: border-box;
+				overscroll-behavior-x: contain;
 				border: 1px solid var(--border);
 				border-radius: 0.55rem;
 				background: color-mix(in oklab, var(--background) 72%, black 28%);
@@ -215,6 +256,7 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				text-underline-offset: 2px;
 			}
 
+			/* ─── Breadcrumb ────────────────────────────────────────────── */
 			.breadcrumb-chip {
 				display: inline-flex;
 				align-items: center;
@@ -237,6 +279,7 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				background: color-mix(in oklab, var(--background) 70%, transparent);
 			}
 
+			/* ─── Wide sidebar layout (≥1280px) ─────────────────────────── */
 			@media (min-width: 1280px) {
 				.post-layout-shell {
 					grid-template-columns: var(--side-col) minmax(0, 1fr);
@@ -329,10 +372,11 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 					padding: 64px 0 120px 24px;
 				}
 
+				/* Wider measure on large screens */
+				.content-measure,
 				.post-header,
 				.article-shell,
 				.post-lede,
-				.content-measure,
 				.next-part-shell,
 				.article-footer {
 					max-width: 1020px;
@@ -340,55 +384,131 @@ const nextPost = currentIndex >= 0 ? projectPosts[currentIndex + 1] : undefined;
 				}
 			}
 
+			/* ─── Mobile (≤800px) ────────────────────────────────────────── */
 			@media (max-width: 800px) {
 				.nav-inner,
 				.page-wrapper {
-					padding: 0 24px;
+					padding: 0 18px;
 				}
 
+				/* Give the main stack horizontal breathing room so nothing bleeds
+				   past the viewport edge. page-wrapper already has 18px, so 4px
+				   extra here is enough to keep it off the very edge. */
 				.post-main-stack {
-					padding: 40px 0 80px;
+					padding: 30px 4px 76px;
+					/* Prevent any child from exceeding the stack's own width */
+					overflow-x: hidden;
+				}
+
+				/* Stop the giant h1 from overflowing on narrow phones */
+				.post-main-stack :global(h1) {
+					overflow-wrap: break-word;
+					word-break: break-word;
+					hyphens: auto;
+					max-width: 100%;
 				}
 
 				.post-kicker {
-					margin-bottom: 16px;
-					padding-left: 1rem;
+					margin-bottom: 14px;
+					padding-left: 0.9rem;
+					font-size: 9px;
+					letter-spacing: 0.22em;
 				}
 
 				.post-kicker::before {
-					width: 0.7rem;
+					width: 0.65rem;
 				}
 
 				.post-header :global(h1) {
-					font-size: clamp(3rem, 10.5vw, 4.3rem);
-					line-height: 0.94;
-					letter-spacing: -0.045em;
+					font-size: clamp(2rem, 7.2vw, 2.6rem);
+					line-height: 1.04;
+					letter-spacing: -0.02em;
+					font-weight: 800;
 					text-wrap: balance;
+					hyphens: auto;
 				}
 
 				.post-lede {
-					font-size: clamp(1.1rem, 5.1vw, 1.55rem);
-					line-height: 1.6;
+					font-size: clamp(1.08rem, 5.1vw, 1.38rem);
+					line-height: 1.76;
+					overflow-wrap: break-word;
+					word-break: break-word;
+					max-width: 100%;
 				}
 
 				.post-header {
-					padding: 0 0 32px;
-					margin-bottom: 40px;
+					padding-bottom: 28px;
+					margin-bottom: 32px;
 				}
 
-				.article-shell,
-				.next-part-shell,
-				.article-footer,
-				.post-header,
+				/* On mobile the page-wrapper already has 18px side padding,
+				   so we zero out the extra inline padding on content blocks
+				   to avoid double-gutters. */
 				.content-measure,
-				.post-lede {
-					max-width: none;
+				.post-header,
+				.article-shell,
+				.post-lede,
+				.next-part-shell,
+				.article-footer {
+					max-width: 100%;
+					padding-left: 0;
+					padding-right: 0;
+				}
+
+				.post-header p:nth-of-type(2) {
+					font-size: 0.74rem;
+					line-height: 1.5;
+					letter-spacing: 0.16em;
+				}
+
+				.post-header ul {
+					margin-top: 1.1rem;
+					gap: 0.4rem;
+				}
+
+				.post-header li {
+					padding: 0.4rem 0.55rem;
+					font-size: 10px;
+					letter-spacing: 0.12em;
 				}
 
 				.prose-shell :global(p),
 				.prose-shell :global(li) {
-					font-size: 1.12rem;
-					line-height: 1.72;
+					font-size: 1.125rem;
+					line-height: 1.9;
+					margin-bottom: 20px;
+				}
+
+				.prose-shell :global(h2) {
+					margin-top: 2rem;
+					margin-bottom: 12px;
+					font-size: 11px;
+					letter-spacing: 0.18em;
+					font-weight: 700;
+					gap: 10px;
+				}
+
+				.prose-shell :global(pre) {
+					margin: 30px 0;
+					padding: 0.9rem 0.95rem;
+				}
+
+				.prose-shell :global(code) {
+					font-size: 0.88rem;
+				}
+			}
+
+			/* ─── Very narrow phones (≤420px) ───────────────────────────── */
+			@media (max-width: 420px) {
+				.content-measure,
+				.post-header,
+				.article-shell,
+				.post-lede,
+				.next-part-shell,
+				.article-footer {
+					max-width: 100%;
+					padding-left: 0;
+					padding-right: 0;
 				}
 			}
 		</style>

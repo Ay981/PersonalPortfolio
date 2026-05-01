@@ -31,7 +31,6 @@ export const portfolioContent: PortfolioContent = {
 		'PostgreSQL',
 		'TanStack Query',
 		'Next.js',
-		'Astro',
 		'Tailwind CSS',
 		'Supabase',
 		'Redux Toolkit',
