@@ -24,6 +24,7 @@ const sections = [
 	{ id: 'projects', label: 'Projects' },
 	{ id: 'blog', label: 'Blog' },
 	{ id: 'skills', label: 'Skills' },
+	{ id: 'certificates', label: 'Certificates' },
 	{ id: 'contact', label: 'Contact' },
 ];
 ---
@@ -336,6 +337,56 @@ const sections = [
 						</ul>
 					</div>
 				</div>
+			</section>
+
+			<section id="certificates" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border border-border/50 bg-card p-6 relative overflow-hidden">
+				<div class="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/10 blur-3xl"></div>
+				<div class="relative z-10 flex flex-wrap items-start justify-between gap-4 border-b border-border/60 pb-5">
+					<div class="space-y-2">
+						<p class="text-xs uppercase tracking-[0.26em] text-muted-foreground">05 · Certificates</p>
+						<h2 class="text-lg font-semibold uppercase tracking-[0.15em] text-primary">ALX Software Engineering</h2>
+						<p class="max-w-2xl text-sm leading-7 text-foreground/75 sm:text-base">
+							A verified certificate of completion for the ALX Software Engineering program.
+						</p>
+					</div>
+					{certificates ? (
+						<a href={certificates} target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary/70 hover:bg-primary/20">
+							View certificate
+							<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+								<path d="M7 17 17 7" />
+								<path d="M8 7h9v9" />
+							</svg>
+						</a>
+					) : null}
+				</div>
+
+				{certificates ? (
+					<a href={certificates} target="_blank" rel="noreferrer" class="relative z-10 block overflow-hidden rounded-xl border-2 border-border bg-linear-to-br from-[#052e5a] via-[#073b73] to-[#031e3d] p-5 text-white transition duration-300 hover:border-primary/60 hover:shadow-lg hover:shadow-primary/10 sm:p-6">
+						<div class="flex items-start justify-between gap-4">
+							<div class="space-y-5">
+								<div class="flex items-center gap-3">
+									<div class="text-3xl font-black tracking-tight sm:text-4xl">alx</div>
+									<div class="h-8 w-px bg-white/30"></div>
+									<div class="text-sm leading-tight text-emerald-300 sm:text-base">
+										Software
+										<br />
+										Engineering
+									</div>
+								</div>
+								<div>
+									<p class="text-sm font-semibold uppercase tracking-[0.22em] text-white/90">Certificate of completion</p>
+									<p class="mt-3 text-sm text-white/80">This is awarded to</p>
+									<p class="mt-6 max-w-3xl text-2xl font-bold text-emerald-300 sm:text-4xl">Aymen Abdulkerim Abdulber</p>
+									<div class="mt-2 h-px w-full max-w-xl bg-white/80"></div>
+								</div>
+							</div>
+							<div class="hidden shrink-0 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs uppercase tracking-[0.22em] text-white/80 sm:block">
+								Open link
+							</div>
+						</div>
+						<div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(45,212,191,0.28),transparent_30%),radial-gradient(circle_at_70%_70%,rgba(56,189,248,0.16),transparent_26%)]"></div>
+					</a>
+				) : null}
 			</section>
 
 			<section id="contact" class="mobile-section-pane scroll-mt-28 space-y-8 rounded-lg border border-border/50 bg-card p-8">
