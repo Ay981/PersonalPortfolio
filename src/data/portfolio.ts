@@ -5,6 +5,7 @@ export type PortfolioProject = {
 	tech: string[];
 	url: string;
 	screenshotUrl: string;
+	liveLink?: string;
 };
 
 export type PortfolioContent = {
@@ -17,6 +18,7 @@ export type PortfolioContent = {
 	github: string;
 	linkedin: string;
 	upwork: string;
+	certificates?: string;
 	projects: PortfolioProject[];
 };
 
@@ -42,6 +44,7 @@ export const portfolioContent: PortfolioContent = {
 	github: 'https://github.com/Ay981',
 	linkedin: 'https://www.linkedin.com/in/aymen-abdulkerim-1a881a30a/',
 	upwork: 'https://www.upwork.com/freelancers/~0187abe50d50e5a0da?mp_source=share',
+	certificates: 'https://savanna.alxafrica.com/certificates/E36JMRY7m2',
 	projects: [
 		{
 			key: 'act-elearning',
@@ -69,6 +72,7 @@ export const portfolioContent: PortfolioContent = {
 			tech: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Supabase'],
 			url: 'https://github.com/Ay981/le-restaurant',
 			screenshotUrl: '/projects/restaurant.png',
+			liveLink: 'https://le-restaurant-seven.vercel.app/',
 		},
 		{
 			key: 'zeroday',
@@ -78,6 +82,7 @@ export const portfolioContent: PortfolioContent = {
 			tech: ['Laravel', 'PHP', 'Sanctum', 'REST API'],
 			url: 'https://github.com/Ay981/zeroday',
 			screenshotUrl: '/projects/zerodayss.png',
+			liveLink: 'https://zeroday.aymenabdulkerim.dev/',
 		},
         
 	],

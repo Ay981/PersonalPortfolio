@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import { portfolioContent } from '../data/portfolio';
 import Analytics from '@vercel/analytics/astro';
 
-const { name, role, bio, skills, projects, cv, email, github, linkedin, upwork } = portfolioContent;
+const { name, role, bio, skills, projects, cv, email, github, linkedin, upwork, certificates } = portfolioContent;
 const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
 const blogPostCountByProject = blogPosts.reduce(
 	(accumulator, post) => {
@@ -197,6 +197,11 @@ const sections = [
 					<a class="rounded-md border-2 border-border px-3 py-2 hover:bg-muted" href={upwork} target="_blank" rel="noreferrer">
 						Upwork
 					</a>
+					{certificates ? (
+						<a class="rounded-md border-2 border-border px-3 py-2 hover:bg-muted" href={certificates} target="_blank" rel="noreferrer">
+							Certificates
+						</a>
+					) : null}
 					<a class="rounded-md border-2 border-primary/50 bg-primary/12 px-3 py-2 font-semibold text-primary transition hover:bg-primary/20" href={cv} download>
 						Download CV
 					</a>
@@ -231,6 +236,9 @@ const sections = [
 					{
 						projects.map((project, idx) => (
 							<article class="project-card group rounded-lg border-2 border-border bg-background p-3 relative overflow-hidden transition duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 sm:p-4" style={{ animationDelay: `${idx * 100}ms` }}>
+								{project.liveLink ? (
+									<a href={project.liveLink} target="_blank" rel="noreferrer" aria-label={`Open ${project.title} live`} class="absolute inset-0 z-0" tabindex="-1"></a>
+								) : null}
 								<div aria-hidden="true" class="absolute -right-20 -top-20 w-40 h-40 bg-primary/5 rounded-full group-hover:bg-primary/10 transition duration-300"></div>
 								<div class="mb-3 overflow-hidden rounded-lg border border-border bg-muted relative sm:mb-4">
 									<img
@@ -255,6 +263,11 @@ const sections = [
 										<a href={project.url} target="_blank" rel="noreferrer" class="font-medium text-primary hover:underline">
 											GitHub
 										</a>
+										{project.liveLink ? (
+											<a href={project.liveLink} target="_blank" rel="noreferrer" class="font-medium text-primary hover:underline">
+												Live
+											</a>
+										) : null}
 										<a href={`/blog/project/${project.key}`} class="font-medium text-primary hover:underline">
 											Read devlog
 										</a>
