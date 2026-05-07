@@ -206,7 +206,7 @@ const sections = [
 					<a class="rounded-md border-2 border-primary/50 bg-primary/12 px-3 py-2 font-semibold text-primary transition hover:bg-primary/20" href={cv} download>
 						Download CV
 					</a>
-						<a class="rounded-md border-2 border-primary bg-primary px-3 py-2 font-semibold text-primary-foreground transition hover:brightness-110" href={`mailto:${email}`}>
+						<a class="rounded-md border-2 border-primary bg-primary px-3 py-2 font-semibold text-primary-foreground transition hover:brightness-110" href="#contact">
 							Email
 						</a>
 				</div>
@@ -389,38 +389,87 @@ const sections = [
 				) : null}
 			</section>
 
-			<section id="contact" class="mobile-section-pane scroll-mt-28 space-y-8 rounded-lg border border-border/50 bg-card p-8">
-				<div class="grid gap-8 lg:grid-cols-[1.3fr_0.9fr] lg:items-end">
+			<section id="contact" class="mobile-section-pane scroll-mt-28 space-y-8 rounded-lg border border-border/50 bg-card p-6 sm:p-8">
+				<div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
 					<div class="space-y-4">
 						<p class="text-xs uppercase tracking-[0.26em] text-success">• Available for work</p>
 						<h2 class="text-4xl font-semibold tracking-tight sm:text-5xl">Let's build <span class="italic text-primary">something real.</span></h2>
 						<p class="max-w-2xl text-sm leading-7 text-foreground/60 sm:text-base">
 							Not open to everything — open to the right thing. If the problem is interesting, reach out.
 						</p>
-					</div>
-					<div class="flex flex-col items-start gap-4 lg:items-end">
-						<div class="flex flex-wrap items-center gap-3">
-							<a 
-								class="contact-btn group inline-flex items-center gap-2.5 rounded-md border border-primary/40 bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 active:scale-95"
-								href={`mailto:${email}`}
-							>
-								<span>Send an email</span>
-								<svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-									<path d="M5 12h14"/>
-									<path d="m12 5 7 7-7 7"/>
-								</svg>
-							</a>
-							<a href={cv} download class="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/12 px-5 py-3.5 font-semibold text-primary transition hover:border-primary/70 hover:bg-primary/20 active:scale-95">
-								Download CV
-							</a>
-						</div>
-						<div class="flex flex-wrap items-center gap-5 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+						<div class="flex flex-wrap items-center gap-5 pt-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
 							<a class="transition hover:text-foreground" href={github} target="_blank" rel="noreferrer">GitHub</a>
 							<a class="transition hover:text-foreground" href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
 							<a class="transition hover:text-foreground" href={upwork} target="_blank" rel="noreferrer">Upwork</a>
 							<a class="font-semibold text-primary transition hover:text-foreground" href={cv} download>CV</a>
 						</div>
 					</div>
+					<form
+						class="space-y-4 rounded-lg border-2 border-border bg-background p-4 sm:p-5"
+						action={`https://formsubmit.co/${email}`}
+						method="POST"
+					>
+						<input type="hidden" name="_subject" value="New portfolio message" />
+						<input type="hidden" name="_template" value="table" />
+						<input type="hidden" name="_captcha" value="false" />
+						<input type="hidden" name="_next" value="https://aymenabdulkerim.dev/#contact" />
+						<div class="grid gap-4 sm:grid-cols-2">
+							<label class="space-y-2 text-sm font-semibold text-foreground">
+								<span>Name</span>
+								<input
+									class="min-h-12 w-full rounded-md border border-border bg-card px-3 py-3 text-sm text-foreground transition placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+									type="text"
+									name="name"
+									placeholder="Your name"
+									autocomplete="name"
+									required
+								/>
+							</label>
+							<label class="space-y-2 text-sm font-semibold text-foreground">
+								<span>Email</span>
+								<input
+									class="min-h-12 w-full rounded-md border border-border bg-card px-3 py-3 text-sm text-foreground transition placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+									type="email"
+									name="email"
+									placeholder="you@example.com"
+									autocomplete="email"
+									required
+								/>
+							</label>
+						</div>
+						<label class="block space-y-2 text-sm font-semibold text-foreground">
+							<span>Subject</span>
+							<input
+								class="min-h-12 w-full rounded-md border border-border bg-card px-3 py-3 text-sm text-foreground transition placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+								type="text"
+								name="subject"
+								placeholder="Project, role, or collaboration"
+								required
+							/>
+						</label>
+						<label class="block space-y-2 text-sm font-semibold text-foreground">
+							<span>Message</span>
+							<textarea
+								class="min-h-40 w-full resize-y rounded-md border border-border bg-card px-3 py-3 text-sm leading-6 text-foreground transition placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+								name="message"
+								placeholder="Tell me what you are building and where I can help."
+								required
+							></textarea>
+						</label>
+						<div class="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
+							<p class="text-xs leading-5 text-muted-foreground">Replies go to the email you enter here.</p>
+							<button
+								class="contact-btn group inline-flex items-center gap-2.5 rounded-md border border-primary/40 bg-primary px-6 py-3.5 font-semibold text-primary-foreground transition-all duration-300 hover:brightness-110 active:scale-95"
+								type="submit"
+							>
+								<span>Send message</span>
+								<svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M5 12h14"/>
+									<path d="m12 5 7 7-7 7"/>
+								</svg>
+							</button>
+						</div>
+					</form>
 				</div>
 			</section>
 

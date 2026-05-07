@@ -39,7 +39,7 @@ export const portfolioContent: PortfolioContent = {
 		'Node.js',
 		'MySQL',
 	],
-	cv: '/cv/AymenCV.pdf',
+	cv: '/cv/Aymencv.pdf',
 	email: 'aymenabdulkerim411@gmail.com',
 	github: 'https://github.com/Ay981',
 	linkedin: 'https://www.linkedin.com/in/aymen-abdulkerim-1a881a30a/',
