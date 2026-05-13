@@ -25,7 +25,6 @@ const sections = [
 	{ id: 'blog', label: 'Blog' },
 	{ id: 'skills', label: 'Skills' },
 	{ id: 'certificates', label: 'Certificates' },
-	{ id: 'cv', label: 'CV' },
 	{ id: 'contact', label: 'Contact' },
 ];
 ---
@@ -92,7 +91,7 @@ const sections = [
 			<header class="site-topbar sticky top-0 z-30 border-y-2 border-border px-4 py-3 backdrop-blur sm:px-6">
 				<div class="flex flex-wrap items-center justify-between gap-3 text-sm">
 					<p class="text-muted-foreground">~/home/{name.toLowerCase().replace(' ', '')}/portfolio</p>
-					<a href="#cv" class="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/12 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary transition hover:border-primary/70 hover:bg-primary/20">
+					<a href="/cv" class="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/12 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.18em] text-primary transition hover:border-primary/70 hover:bg-primary/20">
 						View CV
 					</a>
 				</div>
@@ -204,7 +203,7 @@ const sections = [
 							Certificates
 						</a>
 					) : null}
-					<a class="rounded-md border-2 border-primary/50 bg-primary/12 px-3 py-2 font-semibold text-primary transition hover:bg-primary/20" href="#cv">
+					<a class="rounded-md border-2 border-primary/50 bg-primary/12 px-3 py-2 font-semibold text-primary transition hover:bg-primary/20" href="/cv">
 						View CV
 					</a>
 						<a class="rounded-md border-2 border-primary bg-primary px-3 py-2 font-semibold text-primary-foreground transition hover:brightness-110" href="#contact">
@@ -390,33 +389,6 @@ const sections = [
 				) : null}
 			</section>
 
-			<section id="cv" class="mobile-section-pane scroll-mt-28 space-y-4 rounded-lg border border-border/50 bg-card p-6 relative overflow-hidden">
-				<div class="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-primary/10 blur-3xl"></div>
-				<div class="relative z-10 flex flex-wrap items-start justify-between gap-4 border-b border-border/60 pb-5">
-					<div class="space-y-2">
-						<p class="text-xs uppercase tracking-[0.26em] text-muted-foreground">06 · CV</p>
-						<h2 class="text-lg font-semibold uppercase tracking-[0.15em] text-primary">Curriculum Vitae</h2>
-						<p class="max-w-2xl text-sm leading-7 text-foreground/75 sm:text-base">
-							Browse my CV directly on the page, or open the PDF in a new tab if you want to save a copy.
-						</p>
-					</div>
-					<div class="flex flex-wrap gap-3">
-						<a href={cv} target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 rounded-md border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary/70 hover:bg-primary/20">
-							Open PDF
-						</a>
-					</div>
-				</div>
-
-				<div class="relative z-10 overflow-hidden rounded-xl border-2 border-border bg-background shadow-lg shadow-black/5 dark:shadow-primary/5">
-					<iframe
-						src={cv}
-						title="Aymen Abdulkerim CV"
-						class="h-[85vh] w-full"
-						loading="lazy"
-					></iframe>
-				</div>
-			</section>
-
 			<section id="contact" class="mobile-section-pane scroll-mt-28 space-y-8 rounded-lg border border-border/50 bg-card p-6 sm:p-8">
 				<div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
 					<div class="space-y-4">
@@ -429,7 +401,7 @@ const sections = [
 							<a class="transition hover:text-foreground" href={github} target="_blank" rel="noreferrer">GitHub</a>
 							<a class="transition hover:text-foreground" href={linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
 							<a class="transition hover:text-foreground" href={upwork} target="_blank" rel="noreferrer">Upwork</a>
-							<a class="font-semibold text-primary transition hover:text-foreground" href="#cv">CV</a>
+							<a class="font-semibold text-primary transition hover:text-foreground" href="/cv">CV</a>
 						</div>
 					</div>
 					<form

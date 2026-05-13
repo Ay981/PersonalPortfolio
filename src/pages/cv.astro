@@ -1,0 +1,51 @@
+---
+import '../global.css';
+import Analytics from '@vercel/analytics/astro';
+import { portfolioContent } from '../data/portfolio';
+
+const { name, role, cv } = portfolioContent;
+---
+
+<html lang="en" class="h-full scroll-smooth">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{name} · CV</title>
+		<meta name="description" content={`View ${name}'s CV online. ${role}.`} />
+		<meta name="author" content={name} />
+		<link rel="canonical" href="https://aymenabdulkerim.dev/cv" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://aymenabdulkerim.dev/cv" />
+		<meta property="og:title" content={`${name} · CV`} />
+		<meta property="og:description" content={`View ${name}'s CV online.`} />
+		<Analytics />
+	</head>
+	<body class="min-h-full bg-background text-foreground antialiased">
+		<main class="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6 lg:px-8">
+			<header class="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-card px-4 py-3 shadow-sm">
+				<div class="space-y-1">
+					<p class="text-xs uppercase tracking-[0.26em] text-muted-foreground">Dedicated route</p>
+					<h1 class="text-xl font-semibold tracking-tight sm:text-2xl">{name} · CV</h1>
+				</div>
+				<div class="flex flex-wrap gap-3">
+					<a href="/" class="rounded-md border border-border px-4 py-2 text-sm font-semibold transition hover:bg-muted">Back home</a>
+					<a href={cv} target="_blank" rel="noreferrer" class="rounded-md border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary/70 hover:bg-primary/20">
+						Open PDF
+					</a>
+				</div>
+			</header>
+
+			<section class="flex-1 overflow-hidden rounded-2xl border-2 border-border bg-card shadow-xl shadow-black/5 dark:shadow-primary/5">
+				<iframe
+					src={cv}
+					title={`${name} CV`}
+					class="h-[calc(100vh-11rem)] w-full"
+					loading="eager"
+				></iframe>
+			</section>
+		</main>
+	</body>
+</html>
